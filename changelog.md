@@ -10,10 +10,21 @@ update config.json
 add router
 create new database
 0.0.1
+added tesla style
 
 - tesla vs calculator
 - solar calculator
 
+- add 
+
+- enter your car, get trade-in value
+- enter your state, get estimated kWH
+
+- home charger cost
+- deprecation
+- registration fees
+
+- gas car's range, note tesla's leave home full
 
 
 IN
