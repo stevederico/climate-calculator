@@ -1,6 +1,6 @@
 {
     "appName": "Climate",
-    "appIcon": "tree",
+    "appIcon": "tree-pine",
     "tagline": "Save the World",
     "backendURL": "https://bob.bixbyapps.com",
     "devBackendURL": "http://localhost:3000",
