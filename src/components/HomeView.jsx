@@ -76,6 +76,10 @@ export default function HomeView() {
     setter(parseNumberInput(e.target.value));
   };
 
+  // Calculate EV energy cost and percent cheaper
+  const evEnergyCost = (parseFloat(milesDriven) * 0.25 * parseFloat(energyCost)) || 0;
+  const percentCheaper = gasCost > 0 ? Math.round(100 * (1 - (evEnergyCost / gasCost))) : 0;
+
   return (
     <>
       <Header
@@ -221,7 +225,14 @@ export default function HomeView() {
           </div>
 
           <div className="mb-3 border px-3 pt-2 pb-2 rounded">
-            <label className="block mb-1 text-sm text-gray-400">Energy 55% cheaper!</label>
+            <label className="block mb-1 text-sm text-gray-400 flex items-center gap-2">
+              Energy
+              {percentCheaper > 0 && (
+                <span className="inline-block px-2 py-0.5 rounded-full bg-green-700 bg-opacity-80 text-xs font-semibold">
+                  {percentCheaper}% Savings
+                </span>
+              )}
+            </label>
             <div className="flex flex-row gap-2 items-center">
               <div className="w-1/2 flex flex-col">
                 <span className="text-xs text-gray-400 mb-1">{formatNumber(milesDriven)} miles </span>
@@ -229,7 +240,7 @@ export default function HomeView() {
                   <div className="text-xl mr-1">$</div>
                   <input
                     type="text"
-                    value={(parseFloat(milesDriven) * 0.25 * parseFloat(energyCost)).toFixed(2)}
+                    value={evEnergyCost.toFixed(2)}
                     readOnly
                     className="w-full p-0 pb-0 text-xl rounded border-none cursor-default"
                     tabIndex={-1}

@@ -14,9 +14,14 @@ added tesla style
 added ev calculator
 - upcoming repairs
 
-- solar calculator
 
-- add 
+- Handle Cash/Finance instead of just lease
+- select from images of predfined cars and locations
+- add referal link!
+- hide the inputs and just use the images? Make it a wizard?
+- add other state's rebates
+
+
 
 - enter your car, get trade-in value
 - enter your state, get estimated kWH
@@ -25,8 +30,16 @@ added ev calculator
 - deprecation
 - registration fees
 
-- gas car's range, note tesla's leave home full
+- solar calculator
 
+
+
+DETIAL
+- $7500 from FED
+- FSD is $99/mo 
+- Free charging at work? Link to check, doesn yoru work hand out free gas?
+- gas car's range, note tesla's leave home full
+- Free HOV Lane
 
 IN
 SolarPeer A peer-to-peer platform for households and businesses to trade excess solar energy, maximizing renewable energy use.
