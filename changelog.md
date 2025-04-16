@@ -11,8 +11,9 @@ add router
 create new database
 0.0.1
 added tesla style
+added ev calculator
+- upcoming repairs
 
-- tesla vs calculator
 - solar calculator
 
 - add 
