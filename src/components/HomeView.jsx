@@ -2,8 +2,22 @@ import Header from '@stevederico/skateboard-ui/Header';
 import { useEffect, useState } from "react";
 import { isSubscriber } from '@stevederico/skateboard-ui/Utilities';
 
+// Utility to format numbers with commas
+function formatNumber(val) {
+  if (val === null || val === undefined || isNaN(val)) return '';
+  return val.toLocaleString('en-US');
+}
+
+// Utility to parse input, removing commas
+function parseNumberInput(val) {
+  if (typeof val === 'string') {
+    return parseFloat(val.replace(/,/g, '')) || 0;
+  }
+  return val || 0;
+}
+
 export default function HomeView() {
-  
+
   const teslaModel3 = {
     title: "Tesla Model 3",
     payment: 450,
@@ -37,7 +51,7 @@ export default function HomeView() {
   const [evInsurance, setEVInsurance] = useState(teslaModel3.insurance);
   const [evRegistration, setEVRegistration] = useState(teslaModel3.registration); // annual
   const [evDown, setEVDown] = useState(teslaModel3.down); // Tesla due at signing
-  
+
   const LEASE_MONTHS = 36; // Tesla lease term in months
 
   useEffect(() => {
@@ -59,7 +73,7 @@ export default function HomeView() {
   }, [gasCost, milesDriven, evPayment, energyCost, bayBridgeTolls, gasInsurance, evInsurance, tradeInValue, gasRegistration, evRegistration, evDown, gasCarPayment]);
 
   const handleInputChange = (setter) => (e) => {
-    setter(parseFloat(e.target.value) || 0);
+    setter(parseNumberInput(e.target.value));
   };
 
   return (
@@ -74,138 +88,170 @@ export default function HomeView() {
         <div className=" p-0 rounded-lg shadow-md mb-4">
           <div className="mb-3 border px-3 pt-2 rounded">
             <label className="block mb-1 text-sm text-gray-400">Monthly Gas Spending </label>
-            <input
-              type="number"
-              value={gasCost}
-              onChange={handleInputChange(setGasCost)}
-              className="w-full p-0 pb-2 text-xl rounded"
-              placeholder="Enter monthly gas cost"
-            />
+            <div className="flex items-beginning">
+              <div className="text-xl mr-1">$</div>
+              <input
+                type="text"
+                value={formatNumber(gasCost)}
+                onChange={handleInputChange(setGasCost)}
+                className="w-full p-0 pb-2 text-xl rounded"
+                placeholder="Enter monthly gas cost"
+              />
+            </div>
+
+
           </div>
           <div className="mb-3 border px-3 pt-2 rounded">
             <label className="block mb-1 text-sm text-gray-400">Miles Driven Monthly</label>
             <input
-              type="number"
-              value={milesDriven}
+              type="text"
+              value={formatNumber(milesDriven)}
               onChange={handleInputChange(setMilesDriven)}
               className="w-full p-0 pb-2 text-xl rounded"
               placeholder="Enter miles driven per month"
             />
           </div>
           <div className="mb-3 border px-3 pt-2 rounded">
-            <label className="block mb-1 text-sm text-gray-400">Bay Bridge Tolls Monthly ($)</label>
-            <input
-              type="number"
-              value={bayBridgeTolls}
-              onChange={handleInputChange(setBayBridgeTolls)}
-              className="w-full p-0 pb-2 text-xl rounded"
-              placeholder="Enter monthly Bay Bridge tolls"
-            />
+            <label className="block mb-1 text-sm text-gray-400">Bay Bridge Tolls Monthly</label>
+            <div className="flex items-beginning">
+              <div className="text-xl mr-1">$</div>
+              <input
+                type="text"
+                value={formatNumber(bayBridgeTolls)}
+                onChange={handleInputChange(setBayBridgeTolls)}
+                className="w-full p-0 pb-2 text-xl rounded"
+                placeholder="Enter monthly Bay Bridge tolls"
+              />
+            </div>
           </div>
           <div className="mb-3 border px-3 pt-2 rounded">
-            <label className="block mb-1 text-sm text-gray-400">Gas Vehicle Insurance Monthly ($)</label>
-            <input
-              type="number"
-              value={gasInsurance}
-              onChange={handleInputChange(setGasInsurance)}
-              className="w-full p-0 pb-2 text-xl rounded"
-              placeholder="Enter gas vehicle insurance cost"
-            />
+            <label className="block mb-1 text-sm text-gray-400">Gas Vehicle Insurance Monthly</label>
+            <div className="flex items-beginning">
+              <div className="text-xl mr-1">$</div>
+              <input
+                type="text"
+                value={formatNumber(gasInsurance)}
+                onChange={handleInputChange(setGasInsurance)}
+                className="w-full p-0 pb-2 text-xl rounded"
+                placeholder="Enter gas vehicle insurance cost"
+              />
+            </div>
           </div>
           <div className="mb-3 border px-3 pt-2 rounded">
-            <label className="block mb-1 text-sm text-gray-400">Trade-In Value of Gas Vehicle ($)</label>
-            <input
-              type="number"
-              value={tradeInValue}
-              onChange={handleInputChange(setTradeInValue)}
-              className="w-full p-0 pb-2 text-xl rounded"
-              placeholder="Enter trade-in value"
-            />
+            <label className="block mb-1 text-sm text-gray-400">Trade-In Value of Gas Vehicle</label>
+            <div className="flex items-beginning">
+              <div className="text-xl mr-1">$</div>
+              <input
+                type="text"
+                value={formatNumber(tradeInValue)}
+                onChange={handleInputChange(setTradeInValue)}
+                className="w-full p-0 pb-2 text-xl rounded"
+                placeholder="Enter trade-in value"
+              />
+            </div>
           </div>
           <div className="mb-3 border px-3 pt-2 rounded">
-            <label className="block mb-1 text-sm text-gray-400">Annual Registration Cost ($)</label>
-            <input
-              type="number"
-              value={gasRegistration}
-              onChange={handleInputChange(setGasRegistration)}
-              className="w-full p-0 pb-2 text-xl rounded"
-              placeholder="Enter annual registration cost"
-            />
+            <label className="block mb-1 text-sm text-gray-400">Annual Registration Cost</label>
+            <div className="flex items-beginning">
+              <div className="text-xl mr-1">$</div>
+              <input
+                type="text"
+                value={formatNumber(gasRegistration)}
+                onChange={handleInputChange(setGasRegistration)}
+                className="w-full p-0 pb-2 text-xl rounded"
+                placeholder="Enter annual registration cost"
+              />
+            </div>
           </div>
           <div className="mb-3 border px-3 pt-2 rounded">
-            <label className="block mb-1 text-sm text-gray-400">Monthly Car Payment ($)</label>
-            <input
-              type="number"
-              value={gasCarPayment}
-              onChange={handleInputChange(setGasCarPayment)}
-              className="w-full p-0 pb-2 text-xl rounded"
-              placeholder="Enter monthly car payment"
-            />
+            <label className="block mb-1 text-sm text-gray-400">Monthly Car Payment</label>
+            <div className="flex items-beginning">
+              <div className="text-xl mr-1">$</div>
+              <input
+                type="text"
+                value={formatNumber(gasCarPayment)}
+                onChange={handleInputChange(setGasCarPayment)}
+                className="w-full p-0 pb-2 text-xl rounded"
+                placeholder="Enter monthly car payment"
+              />
+            </div>
           </div>
         </div>
 
         <div className="mb-3 border px-3 pt-2 rounded">
-            <label className="block mb-1 font-medium text-sm text-gray-400">Select EV:</label>
-            <select
-              value={selectedCarTitle}
-              onChange={(e) => {
-                const selectedCar = cars.find(car => car.title === e.target.value);
-                if (selectedCar) {
-                  setSelectedCarTitle(selectedCar.title);
-                  setEVPayment(selectedCar.payment);
-                  setEVInsurance(selectedCar.insurance);
-                  setEVRegistration(selectedCar.registration);
-                  setEVDown(selectedCar.down);
-                }
-              }}
-              className="w-full p-0 pb-2 text-xl rounded"
-            >
-              {cars.map(car => (
-                <option key={car.title} value={car.title}>{car.title}</option>
-              ))}
-            </select>
-          </div>
+          <label className="block mb-1 font-medium text-sm text-gray-400">Select EV:</label>
+          <select
+            value={selectedCarTitle}
+            onChange={(e) => {
+              const selectedCar = cars.find(car => car.title === e.target.value);
+              if (selectedCar) {
+                setSelectedCarTitle(selectedCar.title);
+                setEVPayment(selectedCar.payment);
+                setEVInsurance(selectedCar.insurance);
+                setEVRegistration(selectedCar.registration);
+                setEVDown(selectedCar.down);
+              }
+            }}
+            className="w-full p-0 pb-2 text-xl rounded"
+          >
+            {cars.map(car => (
+              <option key={car.title} value={car.title}>{car.title}</option>
+            ))}
+          </select>
+        </div>
         <div className=" p-0 rounded-lg shadow-md mb-4">
-    
+
           <div className="mb-3 border px-3 pt-2 rounded">
-            <label className="block mb-1 text-sm text-gray-400">Energy Cost per kWh ($)</label>
-            <input
-              type="number"
-              value={energyCost}
-              onChange={handleInputChange(setEnergyCost)}
-              className="w-full p-0 pb-2 text-xl rounded"
-              placeholder="Enter energy cost per kWh"
-            />
+            <label className="block mb-1 text-sm text-gray-400">Energy Cost per kWh</label>
+            <div className="flex items-beginning">
+              <div className="text-xl mr-1">$</div>
+              <input
+                type="text"
+                value={formatNumber(energyCost)}
+                onChange={handleInputChange(setEnergyCost)}
+                className="w-full p-0 pb-2 text-xl rounded"
+                placeholder="Enter energy cost per kWh"
+              />
+            </div>
           </div>
           <div className="mb-3 border px-3 pt-2 rounded">
-            <label className="block mb-1 text-sm text-gray-400">EV Insurance Monthly ($)</label>
-            <input
-              type="number"
-              value={evInsurance}
-              onChange={handleInputChange(setEVInsurance)}
-              className="w-full p-0 pb-2 text-xl rounded"
-              placeholder="Enter EV insurance cost"
-            />
+            <label className="block mb-1 text-sm text-gray-400">EV Insurance Monthly</label>
+            <div className="flex items-beginning">
+              <div className="text-xl mr-1">$</div>
+              <input
+                type="text"
+                value={formatNumber(evInsurance)}
+                onChange={handleInputChange(setEVInsurance)}
+                className="w-full p-0 pb-2 text-xl rounded"
+                placeholder="Enter EV insurance cost"
+              />
+            </div>
           </div>
           <div className="mb-3 border px-3 pt-2 rounded">
-            <label className="block mb-1 text-sm text-gray-400">Annual Registration Cost ($)</label>
-            <input
-              type="number"
-              value={evRegistration}
-              onChange={handleInputChange(setEVRegistration)}
-              className="w-full p-0 pb-2 text-xl rounded"
-              placeholder="Enter annual registration cost"
-            />
+            <label className="block mb-1 text-sm text-gray-400">Annual Registration Cost</label>
+            <div className="flex items-beginning">
+              <div className="text-xl mr-1">$</div>
+              <input
+                type="text"
+                value={formatNumber(evRegistration)}
+                onChange={handleInputChange(setEVRegistration)}
+                className="w-full p-0 pb-2 text-xl rounded"
+                placeholder="Enter annual registration cost"
+              />
+            </div>
           </div>
           <div className="mb-3 border px-3 pt-2 rounded">
-            <label className="block mb-1 text-sm text-gray-400">Due at Signing ($)</label>
-            <input
-              type="number"
-              value={evDown}
-              onChange={handleInputChange(setEVDown)}
-              className="w-full p-0 pb-2 text-xl rounded"
-              placeholder="Enter due at signing"
-            />
+            <label className="block mb-1 text-sm text-gray-400">Due at Signing</label>
+            <div className="flex items-beginning">
+              <div className="text-xl mr-1">$</div>
+              <input
+                type="text"
+                value={formatNumber(evDown)}
+                onChange={handleInputChange(setEVDown)}
+                className="w-full p-0 pb-2 text-xl rounded"
+                placeholder="Enter due at signing"
+              />
+            </div>
           </div>
         </div>
 
