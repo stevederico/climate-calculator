@@ -3,16 +3,17 @@ import { useEffect, useState } from "react";
 import { isSubscriber } from '@stevederico/skateboard-ui/Utilities';
 
 export default function HomeView() {
-  const [gasCost, setGasCost] = useState(350); // Default monthly gas spending
-  const [carValue, setCarValue] = useState(0);
-  const [milesDriven, setMilesDriven] = useState(500); // Default miles driven monthly
-  const [model3Cost, setModel3Cost] = useState(299); // Default Model 3 lease cost
-  const [energyCost, setEnergyCost] = useState(0.45); // Default energy cost per kWh
-  const [bayBridgeTolls, setBayBridgeTolls] = useState(160); // Default Bay Bridge tolls per month
+  const [gasCost, setGasCost] = useState(350);
+  const [milesDriven, setMilesDriven] = useState(1000);
+  const [model3Cost, setModel3Cost] = useState(299);
+  const [energyCost, setEnergyCost] = useState(0.45);
+  const [bayBridgeTolls, setBayBridgeTolls] = useState(160);
   const [totalCurrentCost, setTotalCurrentCost] = useState(0);
   const [totalModel3Cost, setTotalModel3Cost] = useState(0);
-  const [gasInsurance, setGasInsurance] = useState(50); // Gas vehicle insurance
-  const [teslaInsurance, setTeslaInsurance] = useState(100); // Tesla insurance
+  const [gasInsurance, setGasInsurance] = useState(50);
+  const [teslaInsurance, setTeslaInsurance] = useState(100);
+  const [tradeInValue, setTradeInValue] = useState(0); // Trade-in value of gas vehicle
+  const LEASE_MONTHS = 36; // Tesla lease term in months
 
   useEffect(() => {
     isSubscriber().then(s => {
@@ -21,19 +22,18 @@ export default function HomeView() {
   }, []);
 
   useEffect(() => {
-    // Calculate total cost for gas vehicle (no depreciation)
     const gasMonthly = parseFloat(gasCost) || 0;
     const tollsMonthly = parseFloat(bayBridgeTolls) || 0;
     const insuranceMonthly = parseFloat(gasInsurance) || 0;
     setTotalCurrentCost(gasMonthly + tollsMonthly + insuranceMonthly);
 
-    // Calculate total cost for Model 3
     const miles = parseFloat(milesDriven) || 0;
-    const energyMonthly = miles * 0.25 * energyCost; // 0.25 kWh/mi
-    const teslaTolls = tollsMonthly / 2; // Tesla toll cost is half
+    const energyMonthly = miles * 0.25 * (parseFloat(energyCost) || 0);
+    const teslaTolls = tollsMonthly / 2;
     const teslaIns = parseFloat(teslaInsurance) || 0;
-    setTotalModel3Cost(model3Cost + energyMonthly + teslaTolls + teslaIns);
-  }, [gasCost, carValue, milesDriven, model3Cost, energyCost, bayBridgeTolls, gasInsurance, teslaInsurance]);
+    const tradeInMonthly = (parseFloat(tradeInValue) || 0) / LEASE_MONTHS;
+    setTotalModel3Cost((parseFloat(model3Cost) || 0) + energyMonthly + teslaTolls + teslaIns - tradeInMonthly);
+  }, [gasCost, milesDriven, model3Cost, energyCost, bayBridgeTolls, gasInsurance, teslaInsurance, tradeInValue]);
 
   const handleInputChange = (setter) => (e) => {
     setter(parseFloat(e.target.value) || 0);
@@ -57,16 +57,6 @@ export default function HomeView() {
               onChange={handleInputChange(setGasCost)}
               className="w-full p-2 border rounded"
               placeholder="Enter monthly gas cost"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="block mb-1 font-medium">Gas Vehicle Value ($):</label>
-            <input
-              type="number"
-              value={carValue}
-              onChange={handleInputChange(setCarValue)}
-              className="w-full p-2 border rounded"
-              placeholder="Enter gas vehicle value"
             />
           </div>
           <div className="mb-3">
@@ -97,6 +87,16 @@ export default function HomeView() {
             onChange={handleInputChange(setGasInsurance)}
             className="w-full p-2 border rounded"
             placeholder="Enter gas vehicle insurance cost"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="block mb-1 font-medium">Trade-In Value of Gas Vehicle ($):</label>
+          <input
+            type="number"
+            value={tradeInValue}
+            onChange={handleInputChange(setTradeInValue)}
+            className="w-full p-2 border rounded"
+            placeholder="Enter trade-in value"
           />
         </div>
         </div>
@@ -152,6 +152,7 @@ export default function HomeView() {
             <div>Energy: <span className="font-mono">${(parseFloat(milesDriven) * 0.25 * parseFloat(energyCost)).toFixed(2)}</span></div>
             <div>Tolls: <span className="font-mono">${(parseFloat(bayBridgeTolls) / 2).toFixed(2)}</span></div>
             <div>Insurance: <span className="font-mono">${parseFloat(teslaInsurance).toFixed(2)}</span></div>
+            <div>Trade-In Credit: <span className="font-mono">-${((parseFloat(tradeInValue) || 0) / LEASE_MONTHS).toFixed(2)}</span></div>
             <div className="font-bold">Total: <span className="font-mono">${totalModel3Cost.toFixed(2)}</span></div>
           </div>
         </div>
@@ -160,6 +161,7 @@ export default function HomeView() {
             ? `Switching to a Model 3 could save you $${(totalCurrentCost - totalModel3Cost).toFixed(2)} per month!`
             : `Your gas vehicle is $${(totalModel3Cost - totalCurrentCost).toFixed(2)} cheaper per month than a Model 3.`}
         </p>
+        <p className="font-bold text-green-600 mt-4">Tesla Model 3 comes with <span className="font-mono">Free Supercharging for 6 Months</span>!</p>
       </div>
     </>
   );
