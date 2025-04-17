@@ -507,6 +507,7 @@ export default function EVCalcView() {
               { icon: 'Volume2', text: 'Much quieter, no engine noise' },
               { icon: 'MonitorPlay', text: 'Watch Netflix, YouTube, and play video games while you charge' },
               { icon: 'BadgeDollarSign', text: '$7500 off instantly from Federal Government' },
+              { icon: 'Droplets', text: 'No oil changes needed – just add washer fluid and change brakes every 50k miles, that\'s it!' },
             ].map((b, i) => {
               const Icon = icons[b.icon];
               return (
@@ -521,6 +522,20 @@ export default function EVCalcView() {
               );
             })}
           </ul>
+        </div>
+
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold mb-4 text-center">Self-Driving</h2>
+          <div className="bg-background border border-accent rounded-lg p-6 max-w-2xl mx-auto">
+            <div className="flex items-center gap-4 mb-4">
+              {icons.Car && <icons.Car className="w-8 h-8" />}
+              <span className="text-lg">AutoPilot - like cruise control but better</span>
+            </div>
+            <div className="flex items-center gap-4">
+              {icons.Navigation && <icons.Navigation className="w-8 h-8" />}
+              <span className="text-lg">FSD - full self driving, you type in where you want to go and it does everything</span>
+            </div>
+          </div>
         </div>
 
         <div className="py-44"></div>
