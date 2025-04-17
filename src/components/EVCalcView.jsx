@@ -1,6 +1,7 @@
 import Header from '@stevederico/skateboard-ui/Header';
 import { useEffect, useState } from "react";
 import { isSubscriber } from '@stevederico/skateboard-ui/Utilities';
+import * as icons from 'lucide-react';
 
 // Utility to format numbers with commas
 function formatNumber(val) {
@@ -23,6 +24,7 @@ export default function EVCalcView() {
     title: "Tesla Model 3",
     method: "Lease",
     term: "36 mo",
+    range: 363,
     payment: 450,
     insurance: 100,
     registration: 550,
@@ -34,6 +36,7 @@ export default function EVCalcView() {
     title: "Tesla Model Y",
     method: "Lease",
     term: "36 mo",
+    range: 327,
     payment: 692,
     insurance: 120,
     registration: 600,
@@ -45,6 +48,7 @@ export default function EVCalcView() {
     title: "Tesla Model Y Buy" ,
     method: "Buy",
     term: "72 mo",
+    range: 327,
     payment: 802,
     insurance: 120,
     registration: 600,
@@ -56,7 +60,7 @@ export default function EVCalcView() {
     title: "Used Tesla Model Y ",
     method: "Buy",
     term: "72 mo",
-
+    range: 327,
     payment: 371,
     insurance: 120,
     registration: 600,
@@ -65,10 +69,10 @@ export default function EVCalcView() {
     repairs: 295
   }]
   const iceCars = [
-    { title: "Toyota Camry 2020", tradeIn: 14600, payment: 475, registration: 379, insurance: 167, repairs: 441 },
-    { title: "Honda Accord 2020", tradeIn: 15965, payment: 450, registration: 371, insurance: 220, repairs: 428 },
-    { title: "Ford F-150 2020", tradeIn: 13830, payment: 489, registration: 468, insurance: 106, repairs: 775 },
-    { title: "Jeep Grand Cherokee", tradeIn: 14026, payment: 425, registration: 475, insurance: 179, repairs: 635 },
+    { title: "Toyota Camry 2020", tradeIn: 14600, payment: 475, registration: 379, insurance: 167, repairs: 441, range: 536 },
+    { title: "Honda Accord 2020", tradeIn: 15965, payment: 450, registration: 371, insurance: 220, repairs: 428, range: 562 },
+    { title: "Ford F-150 2020", tradeIn: 13830, payment: 489, registration: 468, insurance: 106, repairs: 775, range: 550 },
+    { title: "Jeep Grand Cherokee", tradeIn: 14026, payment: 425, registration: 475, insurance: 179, repairs: 517 },
     { title: "Other", tradeIn: 8000, payment: 250, registration: 250, insurance: 75 }
   ];
 
@@ -448,15 +452,80 @@ export default function EVCalcView() {
             : `Upgrade +$${(totalEVCost - totalIceCarCost).toFixed(2)} /month`}
         </div>
 
-        {/* <p className=" text-center">
-          {totalEVCost < totalIceCarCost
-            ? `Switch and Save $${(totalIceCarCost - totalEVCost).toFixed(2)} per month!`
-            : `Upgrade to a brand new ${selectedCarTitle} for only $${(totalEVCost - totalIceCarCost).toFixed(2)} more per month.`}
-        </p> */}
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold mb-4 text-center">FAQ</h2>
+          <div className="bg-background border border-accent rounded-lg p-6 mb-8 max-w-2xl mx-auto">
+            <div className="mb-2 font-semibold text-lg">What about range?</div>
+            <div className="text-base mb-4">
+              Most ICE cars travel about 500 miles on a full tank. Model Y range is 327 miles. But ask yourself: have you ever driven your car with less than 2/3rds of a tank? Most daily driving is well within EV range, and you start every day with a full battery if you charge at home.
+            </div>
+            <div className="mb-2 font-semibold text-lg">How much does it cost to charge?</div>
+            <div className="text-base mb-4">
+              Typical home charging: $0.25–$0.50 per kWh. Full charge (75–80 kWh battery) costs ~$20–$40. Many public chargers are free or discounted, especially at work or shopping centers.
+            </div>
+            <div className="mb-2 font-semibold text-lg">How long does it take to charge?</div>
+            <div className="text-base mb-4">
+              <span className="font-semibold">Supercharger (0–80%):</span>
+              <ul className="list-disc ml-6 mb-2">
+                <li>Model 3 RWD: ~25–30 min</li>
+                <li>Model Y RWD: ~25 min</li>
+                <li>Model Y Long Range: ~32 min</li>
+              </ul>
+              <span className="font-semibold">Home (Level 2, 7.7kW):</span>
+              <ul className="list-disc ml-6">
+                <li>Model 3 RWD (62 kWh): 62 ÷ 7.7 ≈ 8 h</li>
+                <li>Model Y RWD (60 kWh): 60 ÷ 7.7 ≈ 7.8 h</li>
+                <li>Model Y Long Range (78.1 kWh): 78.1 ÷ 7.7 ≈ 10.1 h</li>
+              </ul>
+              Most charging is done at home while you sleep, not at public stations.
+            </div>
+            <div className="mb-2 font-semibold text-lg">How much for a home charger?</div>
+            <div className="text-base">
+              Most home chargers can be installed for under $1,000 USD.
+            </div>
+          </div>
+        </div>
+
+        <div id="detailsArea" className="mt-8">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { icon: 'Home', text: 'Always leave home with a full tank (charge overnight)' },
+              { icon: 'Car', text: 'Free HOV Lane access' },
+              { icon: 'BadgeCheck', text: 'No more Smog Checks' },
+              { icon: 'RefreshCw', text: 'Regenerative Braking: better in city driving' },
+              { icon: 'RefreshCw', text: 'Free software updates' },
+              { icon: 'Users', text: 'Your phone is your key' },
+              { icon: 'BadgeCheck', text: 'Free Supercharging for 6 months' },
+              { icon: 'Car', text: 'Self Driving: 3 months free' },
+              { icon: 'Settings2', text: 'Tesla: 20 moving parts vs 20,000 in ICE = less repairs' },
+              { icon: 'Settings2', text: 'ICE cars get less efficient over time, EVs don’t' },
+              { icon: 'Home', text: 'Never go to a dirty gas station again' },
+              { icon: 'ShieldCheck', text: 'Tesla battery: 8 year warranty, 100k+ miles' },
+              { icon: 'Cloud', text: 'Free over-the-air updates' },
+              { icon: 'Plug', text: 'Free charging at work? ', link: { href: 'https://www.plugshare.com/', label: 'Link to check' }, extra: ', does your work hand out free gas?' },
+              { icon: 'TrendingUp', text: 'EVs efficiency gets better/same, ICE gets worse' },
+              { icon: 'Volume2', text: 'Much quieter, no engine noise' },
+              { icon: 'MonitorPlay', text: 'Watch Netflix, YouTube, and play video games while you charge' },
+              { icon: 'BadgeDollarSign', text: '$7500 off instantly from Federal Government' },
+            ].map((b, i) => {
+              const Icon = icons[b.icon];
+              return (
+                <li key={i} className="flex flex-col items-center justify-center bg-background rounded-lg p-6 border border-accent">
+                  {Icon && <Icon className="w-14 h-14 md:w-20 md:h-20 mb-3" />}
+                  <span className="text-center text-lg font-medium">
+                    {b.text}
+                    {b.link && <a href={b.link.href} target="_blank" rel="noopener noreferrer" className="underline mx-1">{b.link.label}</a>}
+                    {b.extra || ''}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
         <div className="py-44"></div>
 
-        {/* <div></div> */}
-        {/* <p className="font-bold  mt-4">{selectedCarTitle} comes with <span className="font-mono">Free Supercharging for 6 Months</span>!</p> */}
+
       </div>
     </>
   );
