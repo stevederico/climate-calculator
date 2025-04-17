@@ -19,31 +19,52 @@ function parseNumberInput(val) {
 export default function HomeView() {
 
   const teslaModel3 = {
-    title: "Tesla Model 3",
+    title: "Tesla Model 3 Lease 36mo",
     payment: 450,
     insurance: 100,
-    registration: 500,
+    registration: 550,
+    milage: 12000,
     down: 2635,
   };
 
   const teslaModelY = {
-    title: "Tesla Model Y",
-    payment: 500,
+    title: "Tesla Model Y Lease 36mo",
+    payment: 692,
     insurance: 120,
     registration: 600,
-    down: 3000,
+    milage: 12000,
+    down: 2919,
   };
-  const cars = [teslaModel3, teslaModelY]
+
+  const teslaModelYBuy = {
+    title: "Tesla Model Y Buy 72mo",
+    payment: 802,
+    insurance: 120,
+    registration: 600,
+    milage: 12000,
+    down: 0,
+  };
+
+  const teslaModelYUsed = {
+    title: "Used Tesla Model Y Buy 72mo",
+    payment: 371,
+    insurance: 120,
+    registration: 600,
+    milage: 12000,
+    down: 0,
+  };
+  const cars = [teslaModel3, teslaModelY, teslaModelYBuy, teslaModelYUsed]
 
   const [gasCost, setGasCost] = useState(350);
   const [milesDriven, setMilesDriven] = useState(1000);
-  const [tradeInValue, setTradeInValue] = useState(8000); // Trade-in value of gas vehicle
-  const [gasRegistration, setGasRegistration] = useState(250); // annual
+  const [tradeInValue, setTradeInValue] = useState(8000); // Trade-in value of ice vehicle
+  const [iceRegistration, setIceRegistration] = useState(250); // annual
   const [energyCost, setEnergyCost] = useState(0.45);
-  const [gasInsurance, setGasInsurance] = useState(75);
+  const [iceInsurance, setIceInsurance] = useState(75);
   const [tolls, setTolls] = useState(0);
-  const [gasCarPayment, setGasCarPayment] = useState(250); // monthly gas car payment
-  const [totalGasCarCost, setTotalGasCarCost] = useState(0);
+  const [iceCarPayment, setIceCarPayment] = useState(250); // monthly ice car payment
+  const [iceRepairs, setIceRepairs] = useState(500); // annual repairs/maintenance
+  const [totalIceCarCost, setTotalIceCarCost] = useState(0);
 
   const [selectedCarTitle, setSelectedCarTitle] = useState(teslaModel3.title);
   const [evPayment, setEVPayment] = useState(teslaModel3.payment);
@@ -57,10 +78,11 @@ export default function HomeView() {
   useEffect(() => {
     const gasMonthly = parseFloat(gasCost) || 0;
     const tollsMonthly = parseFloat(tolls) || 0;
-    const insuranceMonthly = parseFloat(gasInsurance) || 0;
-    const gasRegMonthly = (parseFloat(gasRegistration) || 0) / 12;
-    const gasPaymentMonthly = parseFloat(gasCarPayment) || 0;
-    setTotalGasCarCost(gasMonthly + tollsMonthly + insuranceMonthly + gasRegMonthly + gasPaymentMonthly);
+    const insuranceMonthly = parseFloat(iceInsurance) || 0;
+    const iceRegMonthly = (parseFloat(iceRegistration) || 0) / 12;
+    const iceRepairsMonthly = (parseFloat(iceRepairs) || 0) / 12;
+    const icePaymentMonthly = parseFloat(iceCarPayment) || 0;
+    setTotalIceCarCost(gasMonthly + tollsMonthly + insuranceMonthly + iceRegMonthly + iceRepairsMonthly + icePaymentMonthly);
 
     const miles = parseFloat(milesDriven) || 0;
     const energyMonthly = miles * 0.25 * (parseFloat(energyCost) || 0);
@@ -70,7 +92,7 @@ export default function HomeView() {
     const tradeInMonthly = (parseFloat(tradeInValue) || 0) / LEASE_MONTHS;
     const evDueMonthly = (parseFloat(evDown) || 0) / LEASE_MONTHS;
     setTotalEVCost((parseFloat(evPayment) || 0) + energyMonthly + evTolls + evIns + evRegMonthly + evDueMonthly - tradeInMonthly);
-  }, [gasCost, milesDriven, evPayment, energyCost, tolls, gasInsurance, evInsurance, tradeInValue, gasRegistration, evRegistration, evDown, gasCarPayment]);
+  }, [gasCost, milesDriven, evPayment, energyCost, tolls, iceInsurance, evInsurance, tradeInValue, iceRegistration, evRegistration, evDown, iceCarPayment, iceRepairs]);
 
   const handleInputChange = (setter) => (e) => {
     setter(parseNumberInput(e.target.value));
@@ -80,13 +102,18 @@ export default function HomeView() {
   const evEnergyCost = (parseFloat(milesDriven) * 0.25 * parseFloat(energyCost)) || 0;
   const percentCheaper = gasCost > 0 ? Math.round(100 * (1 - (evEnergyCost / gasCost))) : 0;
 
-  const gasCars = [
+  const iceCars = [
     { title: "Toyota Camry" },
     { title: "Honda Accord" },
     { title: "Ford F-150" },
     { title: "Other" }
   ];
-  const [selectedGasCarTitle, setSelectedGasCarTitle] = useState(gasCars[0].title);
+  const [selectedIceCarTitle, setSelectedIceCarTitle] = useState(iceCars[0].title);
+  const [showIceDetails, setShowIceDetails] = useState(false);
+  const [showEVDetails, setShowEVDetails] = useState(false);
+
+  const iceIsLower = totalIceCarCost < totalEVCost;
+  const evIsLower = totalEVCost < totalIceCarCost;
 
   return (
     <>
@@ -97,17 +124,18 @@ export default function HomeView() {
 
       <div className="p-4 max-w-2xl mx-auto">
         <div className="flex flex-col md:flex-row gap-6 max-w-4xl mx-auto">
-          <div className="flex-1">
-            <h3 className="text-xl my-4">Gas Vehicle Costs (Monthly)</h3>
-            <div id="gasParent" className="p-0 rounded-lg shadow-md mb-4 md:mb-0">
+          {/* ICE Section */}
+          <div className="flex-1 flex flex-col">
+            <h3 className="text-xl my-4">ICE Vehicle Costs (Monthly)</h3>
+            <div id="iceParent" className="p-0 rounded-lg shadow-md mb-4 md:mb-0 flex-1 flex flex-col">
               <div className="my- mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 font-medium text-sm text-gray-400">Select Vehicle:</label>
                 <select
-                  value={selectedGasCarTitle}
-                  onChange={e => setSelectedGasCarTitle(e.target.value)}
+                  value={selectedIceCarTitle}
+                  onChange={e => setSelectedIceCarTitle(e.target.value)}
                   className="w-full p-0 pb-2 text-xl rounded"
                 >
-                  {gasCars.map(car => (
+                  {iceCars.map(car => (
                     <option key={car.title} value={car.title}>{car.title}</option>
                   ))}
                 </select>
@@ -118,8 +146,8 @@ export default function HomeView() {
                   <div className="text-xl mr-1">$</div>
                   <input
                     type="text"
-                    value={formatNumber(gasCarPayment)}
-                    onChange={handleInputChange(setGasCarPayment)}
+                    value={formatNumber(iceCarPayment)}
+                    onChange={handleInputChange(setIceCarPayment)}
                     className="w-full p-0 pb-2 text-xl rounded"
                     placeholder="Enter monthly car payment"
                   />
@@ -145,10 +173,10 @@ export default function HomeView() {
                   <div className="text-xl mr-1">$</div>
                   <input
                     type="text"
-                    value={formatNumber(gasInsurance)}
-                    onChange={handleInputChange(setGasInsurance)}
+                    value={formatNumber(iceInsurance)}
+                    onChange={handleInputChange(setIceInsurance)}
                     className="w-full p-0 pb-2 text-xl rounded"
-                    placeholder="Enter gas vehicle insurance cost"
+                    placeholder="Enter ICE vehicle insurance cost"
                   />
                 </div>
               </div>
@@ -160,8 +188,8 @@ export default function HomeView() {
                   <div className="text-xl mr-1">$</div>
                   <input
                     type="text"
-                    value={formatNumber(gasRegistration)}
-                    onChange={handleInputChange(setGasRegistration)}
+                    value={formatNumber(iceRegistration)}
+                    onChange={handleInputChange(setIceRegistration)}
                     className="w-full p-0 pb-2 text-xl rounded"
                     placeholder="Enter annual registration cost"
                   />
@@ -207,11 +235,46 @@ export default function HomeView() {
                   />
                 </div>
               </div>
+
+              <div className="mb-3 border px-3 pt-2 rounded">
+                <label className="block mb-1 text-sm text-gray-400">Repairs / Maintenance (Annual)</label>
+                <div className="flex items-beginning">
+                  <div className="text-xl mr-1">$</div>
+                  <input
+                    type="text"
+                    value={formatNumber(iceRepairs)}
+                    onChange={handleInputChange(setIceRepairs)}
+                    className="w-full p-0 pb-2 text-xl rounded"
+                    placeholder="Enter annual repairs/maintenance cost"
+                  />
+                </div>
+              </div>
+              <div className="flex-1" />
+              {/* ICE Vehicle Totals */}
+              <div className="flex items-center justify-center mb-2 mt-4">
+                <div id="iceTotal"
+                  className={`font-semibold text-3xl cursor-pointer bg-accent px-4 py-2 rounded w-full text-center min-w-[220px]${iceIsLower ? ' bg-green-700' : ''}`}
+                  onClick={() => setShowIceDetails(v => !v)}
+                >
+                  <span className="font-mono">${totalIceCarCost.toFixed(2)}</span>
+                </div>
+              </div>
+              {showIceDetails && (
+                <div className="ml-4 mt-2 bg-background rounded p-2 border">
+                  <div>Payment: <span className="font-mono">${parseFloat(iceCarPayment).toFixed(2)}</span></div>
+                  <div>Gas: <span className="font-mono">${parseFloat(gasCost).toFixed(2)}</span></div>
+                  <div>Insurance: <span className="font-mono">${parseFloat(iceInsurance).toFixed(2)}</span></div>
+                  <div>Registration: <span className="font-mono">${(parseFloat(iceRegistration) / 12).toFixed(2)}</span></div>
+                  <div>Repairs/Maint: <span className="font-mono">${(parseFloat(iceRepairs) / 12).toFixed(2)}</span></div>
+                  <div>Tolls: <span className="font-mono">${parseFloat(tolls).toFixed(2)}</span></div>
+                </div>
+              )}
             </div>
           </div>
-          <div className="flex-1">
+          {/* EV Section */}
+          <div className="flex-1 flex flex-col">
             <h3 className="text-xl my-4">EV Vehicle Costs (Monthly)</h3>
-            <div id="evParent" className="p-0 rounded-lg shadow-md mb-4">
+            <div id="evParent" className="p-0 rounded-lg shadow-md mb-0 flex-1 flex flex-col">
               <div className="my- mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 font-medium text-sm text-gray-400">Select EV:</label>
                 <select
@@ -324,41 +387,46 @@ export default function HomeView() {
                   />
                 </div>
               </div>
+              <div className="flex-1" />
+              {/* EV Vehicle Totals */}
+              <div className="flex items-center justify-center mb-2 mt-4">
+                <div id="evTotal"
+                  className={`font-semibold text-3xl cursor-pointer bg-accent px-4 py-2 rounded w-full text-center min-w-[220px]${evIsLower ? ' text-green-500' : ''}`}
+                  onClick={() => setShowEVDetails(v => !v)}
+                >
+                  <span className="font-mono">${totalEVCost.toFixed(2)}</span>
+                </div>
+              </div>
+              {showEVDetails && (
+                <div className="ml-4 mt-2 bg-background rounded p-2 border">
+                  <div>Payment: <span className="font-mono">${parseFloat(evPayment).toFixed(2)}</span></div>
+                  <div>Energy: <span className="font-mono">${(parseFloat(milesDriven) * 0.254 * parseFloat(energyCost)).toFixed(2)}</span></div>
+                  <div>Insurance: <span className="font-mono">${parseFloat(evInsurance).toFixed(2)}</span></div>
+                  <div>Registration: <span className="font-mono">${(parseFloat(evRegistration) / 12).toFixed(2)}</span></div>
+                  <div>Tolls: <span className="font-mono">${(parseFloat(tolls) / 2).toFixed(2)}</span></div>
+                  <div>Down: <span className="font-mono">${(parseFloat(evDown) / LEASE_MONTHS).toFixed(2)}</span></div>
+                  <div>Trade-In Credit: <span className="font-mono">-${((parseFloat(tradeInValue) || 0) / LEASE_MONTHS).toFixed(2)}</span></div>
+                </div>
+              )}
             </div>
           </div>
         </div>
+        
+        <div
+  className="mt-12 mb-6 px-2 py-3 bg-green-700 text-white text-center text-3xl rounded-xl cursor-pointer"
+  onClick={() => window.open('https://ts.la/stephen93119', '_blank')}
+>
+  Order Now
+</div>
 
-        <h3 className="text-xl font-semibold mb-2">Comparison</h3>
-        <div className="mb-2">
-          <div className="mb-1 font-semibold">Gas Vehicle:</div>
-          <div className="ml-4">
-            <div>Payment: <span className="font-mono">${parseFloat(gasCarPayment).toFixed(2)}</span></div>
-            <div>Gas: <span className="font-mono">${parseFloat(gasCost).toFixed(2)}</span></div>
-            <div>Insurance: <span className="font-mono">${parseFloat(gasInsurance).toFixed(2)}</span></div>
-            <div>Registration: <span className="font-mono">${(parseFloat(gasRegistration) / 12).toFixed(2)}</span></div>
-            <div>Tolls: <span className="font-mono">${parseFloat(tolls).toFixed(2)}</span></div>
-            <div className="font-bold">Total: <span className="font-mono">${totalGasCarCost.toFixed(2)}</span></div>
-          </div>
-        </div>
-        <div className="mb-2">
-          <div className="mb-1 font-semibold">{selectedCarTitle}:</div>
-          <div className="ml-4">
-            <div>Payment: <span className="font-mono">${parseFloat(evPayment).toFixed(2)}</span></div>
-            <div>Energy: <span className="font-mono">${(parseFloat(milesDriven) * 0.254 * parseFloat(energyCost)).toFixed(2)}</span></div>
-            <div>Insurance: <span className="font-mono">${parseFloat(evInsurance).toFixed(2)}</span></div>
-            <div>Registration: <span className="font-mono">${(parseFloat(evRegistration) / 12).toFixed(2)}</span></div>
-            <div>Tolls: <span className="font-mono">${(parseFloat(tolls) / 2).toFixed(2)}</span></div>
-            <div>Down: <span className="font-mono">${(parseFloat(evDown) / LEASE_MONTHS).toFixed(2)}</span></div>
-            <div>Trade-In Credit: <span className="font-mono">-${((parseFloat(tradeInValue) || 0) / LEASE_MONTHS).toFixed(2)}</span></div>
-            <div className="font-bold">Total: <span className="font-mono">${totalEVCost.toFixed(2)}</span></div>
-          </div>
-        </div>
-        <p className="font-bold">
-          {totalEVCost < totalGasCarCost
-            ? `Switching to a ${selectedCarTitle} could save you $${(totalGasCarCost - totalEVCost).toFixed(2)} per month!`
-            : `You could upgrade to a brand new ${selectedCarTitle} for only $${(totalEVCost - totalGasCarCost).toFixed(2)} more per month.`}
+        <p className=" text-center">
+          {totalEVCost < totalIceCarCost
+            ? `Switch and Save $${(totalIceCarCost - totalEVCost).toFixed(2)} per month!`
+            : `You could upgrade to a brand new ${selectedCarTitle} for only $${(totalEVCost - totalIceCarCost).toFixed(2)} more per month.`}
         </p>
-        <p className="font-bold text-green-600 mt-4">{selectedCarTitle} comes with <span className="font-mono">Free Supercharging for 6 Months</span>!</p>
+        
+        {/* <div></div> */}
+        {/* <p className="font-bold  mt-4">{selectedCarTitle} comes with <span className="font-mono">Free Supercharging for 6 Months</span>!</p> */}
       </div>
     </>
   );

@@ -12,27 +12,28 @@ create new database
 0.0.1
 added tesla style
 added ev calculator
-- upcoming repairs
+added registration fees
+added ICE repairs
+added referral link
+0.0.2
+
 
 
 - Handle Cash/Finance instead of just lease
 - select from images of predfined cars and locations
-- add referal link!
 - hide the inputs and just use the images? Make it a wizard?
 - add other state's rebates
-
-
-
 - enter your car, get trade-in value
 - enter your state, get estimated kWH
-
 - home charger cost
 - deprecation
-- registration fees
+
 
 - solar calculator
 
+https://ts.la/stephen93119
 
+3 months of Full Self-Driving (Supervised) or $400 Off Solar Panel Installation
 
 DETIAL
 - $7500 from FED
@@ -40,6 +41,8 @@ DETIAL
 - Free charging at work? Link to check, doesn yoru work hand out free gas?
 - gas car's range, note tesla's leave home full
 - Free HOV Lane
+- never go to a gas station again!
+- Wake up with a full tank
 
 IN
 SolarPeer A peer-to-peer platform for households and businesses to trade excess solar energy, maximizing renewable energy use.
