@@ -35,7 +35,7 @@ https://ts.la/stephen93119
 
 3 months of Full Self-Driving (Supervised) or $400 Off Solar Panel Installation
 
-DETIAL
+DETAILS
 - $7500 from FED
 - FSD is $99/mo 
 - Free charging at work? Link to check, doesn yoru work hand out free gas?

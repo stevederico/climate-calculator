@@ -112,21 +112,21 @@ export default function HomeView() {
   const [showIceDetails, setShowIceDetails] = useState(false);
   const [showEVDetails, setShowEVDetails] = useState(false);
 
-  const iceIsLower = totalIceCarCost < totalEVCost;
+
   const evIsLower = totalEVCost < totalIceCarCost;
 
   return (
     <>
       <Header
         buttonClass=""
-        title={"EV Comparison Calculator"}
+        title={"EV Calculator"}
       ></Header>
 
       <div className="p-4 max-w-2xl mx-auto">
         <div className="flex flex-col md:flex-row gap-6 max-w-4xl mx-auto">
           {/* ICE Section */}
           <div className="flex-1 flex flex-col">
-            <h3 className="text-xl my-4">ICE Vehicle Costs (Monthly)</h3>
+            <h3 className="text-xl my-4">ICE Vehicle Monthly Costs</h3>
             <div id="iceParent" className="p-0 rounded-lg shadow-md mb-4 md:mb-0 flex-1 flex flex-col">
               <div className="my- mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 font-medium text-sm text-gray-400">Select Vehicle:</label>
@@ -253,7 +253,7 @@ export default function HomeView() {
               {/* ICE Vehicle Totals */}
               <div className="flex items-center justify-center mb-2 mt-4">
                 <div id="iceTotal"
-                  className={`font-semibold text-3xl cursor-pointer bg-accent px-4 py-2 rounded w-full text-center min-w-[220px]${iceIsLower ? ' bg-green-700' : ''}`}
+                  className={`font-semibold text-3xl cursor-pointer bg-accent px-4 py-2 rounded w-full text-center min-w-[220px]`}
                   onClick={() => setShowIceDetails(v => !v)}
                 >
                   <span className="font-mono">${totalIceCarCost.toFixed(2)}</span>
@@ -273,7 +273,7 @@ export default function HomeView() {
           </div>
           {/* EV Section */}
           <div className="flex-1 flex flex-col">
-            <h3 className="text-xl my-4">EV Vehicle Costs (Monthly)</h3>
+            <h3 className="text-xl my-4">EV Vehicle Monthly Costs</h3>
             <div id="evParent" className="p-0 rounded-lg shadow-md mb-0 flex-1 flex flex-col">
               <div className="my- mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 font-medium text-sm text-gray-400">Select EV:</label>
@@ -411,20 +411,23 @@ export default function HomeView() {
             </div>
           </div>
         </div>
-        
-        <div
-  className="mt-12 mb-6 px-2 py-3 bg-green-700 text-white text-center text-3xl rounded-xl cursor-pointer"
-  onClick={() => window.open('https://ts.la/stephen93119', '_blank')}
->
-  Order Now
-</div>
 
-        <p className=" text-center">
+        <div
+          className="mt-12 mb-6 px-3 py-4 bg-green-700 text-white text-center text-3xl rounded-xl cursor-pointer font-semibold hover:bg-green-800 transition-colors"
+          onClick={() => window.open('https://ts.la/stephen93119', '_blank')}
+        >
+           {totalEVCost < totalIceCarCost
+            ? `Save $${(totalIceCarCost - totalEVCost).toFixed(2)} /month`
+            : `Upgrade +$${(totalEVCost - totalIceCarCost).toFixed(2)} /month`}
+        </div>
+
+        {/* <p className=" text-center">
           {totalEVCost < totalIceCarCost
             ? `Switch and Save $${(totalIceCarCost - totalEVCost).toFixed(2)} per month!`
-            : `You could upgrade to a brand new ${selectedCarTitle} for only $${(totalEVCost - totalIceCarCost).toFixed(2)} more per month.`}
-        </p>
-        
+            : `Upgrade to a brand new ${selectedCarTitle} for only $${(totalEVCost - totalIceCarCost).toFixed(2)} more per month.`}
+        </p> */}
+        <div className="py-44"></div>
+
         {/* <div></div> */}
         {/* <p className="font-bold  mt-4">{selectedCarTitle} comes with <span className="font-mono">Free Supercharging for 6 Months</span>!</p> */}
       </div>
