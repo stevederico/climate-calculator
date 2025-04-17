@@ -47,7 +47,7 @@ export default function SolarCalcView() {
 
   return (
     <>
-      <Header buttonClass="" title={"Solar Calculator"} />
+
       <div className="p-4 max-w-2xl mx-auto">
         <div className="flex flex-col md:flex-row gap-6 max-w-4xl mx-auto">
           {/* Grid Section */}
