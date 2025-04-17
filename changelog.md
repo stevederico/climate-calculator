@@ -16,26 +16,6 @@ added registration fees
 added ICE repairs
 added referral link
 0.0.2
-added benefits
-
-
-- Handle Cash/Finance instead of just lease
-- select from images of predfined cars and locations
-- hide the inputs and just use the images? Make it a wizard?
-- add other state's rebates
-- enter your car, get trade-in value
-- enter your state, get estimated kWH
-- home charger cost
-- deprecation
-
-
-- solar calculator
-
-https://ts.la/stephen93119
-
-- smog check 
-
-
 BENEFITS
 Free HOV Lane 
 No more smog checks! 
@@ -51,16 +31,26 @@ Much quieter, no engine noise
 Watch netflix, youtube, and play video games while you charge
 $7500 off instantly from Federal Government
 3 months of Full Self-Driving (Supervised) or $400 Off Solar Panel Installation
+added solar calculator
+added FAQ Section
+added self driving section
 
-SELF-DRIVING
-- There are new types of self-driving:
-  - AutoPilot: like cruise control but better
-  - FSD: full self driving, you type in where you want to go and it does everything
+0.0.3
 
-- FSD is $99/mo 
 
-Questions
-- gas car's range, note tesla's leave home full
-- how much does it cost to charge the car full
-- how long does it take to charge?
-- how much is a home charger?
+- Handle Cash/Finance instead of just lease
+- select from images of predfined cars and locations
+- hide the inputs and just use the images? Make it a wizard?
+- add other state's rebates
+- enter your car, get trade-in value
+- enter your state, get estimated kWH
+- home charger cost
+- deprecation
+
+
+
+
+https://ts.la/stephen93119
+
+
+

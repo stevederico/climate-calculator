@@ -45,7 +45,7 @@ export default function EVCalcView() {
     repairs: 295
   },
   {
-    title: "Tesla Model Y Buy" ,
+    title: "Tesla Model Y Buy",
     method: "Buy",
     term: "72 mo",
     range: 327,
@@ -143,10 +143,7 @@ export default function EVCalcView() {
 
   return (
     <>
-      <Header
-        buttonClass=""
-        title={"EV Calculator"}
-      ></Header>
+
 
       <div className="p-4 max-w-2xl mx-auto">
         <div className="flex flex-col md:flex-row gap-6 max-w-4xl mx-auto">
@@ -222,7 +219,7 @@ export default function EVCalcView() {
                 </div>
               </div>
 
-          
+
 
 
               <div className="mb-3 border px-3 pt-2 rounded">
@@ -451,6 +448,21 @@ export default function EVCalcView() {
             ? `Save $${(totalIceCarCost - totalEVCost).toFixed(2)} /month`
             : `Upgrade +$${(totalEVCost - totalIceCarCost).toFixed(2)} /month`}
         </div>
+
+        {/* Payoff calculation in years */}
+        {(() => {
+          const monthlyDelta = totalIceCarCost - totalEVCost;
+          const upfrontDelta = parseFloat(evDown) - parseFloat(tradeInValue);
+          let payoffYears = null;
+          if (monthlyDelta > 0 && upfrontDelta > 0) {
+            payoffYears = (upfrontDelta / (monthlyDelta * 12));
+          }
+          return (
+            <div className="text-center text-lg mb-4">
+              Payoff: {payoffYears && isFinite(payoffYears) && payoffYears > 0 ? payoffYears.toFixed(1) + ' years' : '∞'}
+            </div>
+          );
+        })()}
 
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4 text-center">FAQ</h2>
