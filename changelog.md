@@ -33,6 +33,7 @@ added referral link
 
 https://ts.la/stephen93119
 
+- smog check 
 3 months of Full Self-Driving (Supervised) or $400 Off Solar Panel Installation
 
 DETAILS
@@ -43,44 +44,10 @@ DETAILS
 - Free HOV Lane
 - never go to a gas station again!
 - Wake up with a full tank
-
-IN
-SolarPeer A peer-to-peer platform for households and businesses to trade excess solar energy, maximizing renewable energy use.
-SunOptic Optimizes solar panel placement and performance for homeowners and installers using AI.
-BuildFlow: AI-Powered Construction Workflow SaaS
-Climate Risk Prediction Analytics ClimateRisk Assesses climate-related risks for businesses (e.g., supply chain disruptions,
-CarbonLens Tracks and verifies corporate carbon footprints for transparency.
-
-
-CarbonTrace: AI-Driven Carbon Accounting SaaS
-CarbonTrace Tracks and manages carbon capture projects for industrial clients, ensuring transparency and compliance.
-FactoryPulse: Industry 4.0 Digital Twin SaaS
-ChargeEasy Optimizes electric vehicle (EV) charging for fleets and individuals.
-
-MAYBE
-BuildGreen Helps architects and developers select sustainable building materials.
-CoolChain: Cold Chain Sustainability SaaS
-SmartGrid: Predictive Energy Pricing SaaS
-GridWise Optimizes energy use in urban smart grids for municipalities and utilities.
-Smart Green Building Materials
-EV Fleet Management Software
-AutoGreen Manages autonomous EV fleets for ride-sharing or delivery services.
-PureFlow Connects businesses and communities with affordable desalination solutions.
-
-OUT
-Decentralized Renewable Energy Grids 
-Precision Agriculture for Soil Health
-FarmFlow Uses AI to optimize water and fertilizer use for farmers, reducing waste and costs.
-Sustainable Textile Recycling
-CycleWorks Facilitates recycling of complex materials like plastics or electronics.
-Water-Efficient Desalination Tech
-Circular Economy Marketplace
-UrbanGrow Manages vertical farming operations for urban food production.
-ResourceLoop Enables businesses to share or sell unused materials, reducing waste.
-AquaSave Manages smart irrigation for farms and landscaping companies.
-AI-Powered Carbon Capture Optimization
-Community Climate Resilience App
-
+- No more smog checks!
+- EVs efficency get's better/same, ICE gets worst
+- EV regen in city, ICE is worse
+- Tesla Less 20 moving parts, less repairs, warranty
 
 
 

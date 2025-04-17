@@ -16,62 +16,79 @@ function parseNumberInput(val) {
   return val || 0;
 }
 
-export default function HomeView() {
+export default function EVCalcView() {
 
-  const teslaModel3 = {
-    title: "Tesla Model 3 Lease 36mo",
+
+  const cars = [{
+    title: "Tesla Model 3",
+    method: "Lease",
+    term: "36 mo",
     payment: 450,
     insurance: 100,
     registration: 550,
     milage: 12000,
     down: 2635,
-  };
-
-  const teslaModelY = {
-    title: "Tesla Model Y Lease 36mo",
+    repairs: 295
+  },
+  {
+    title: "Tesla Model Y",
+    method: "Lease",
+    term: "36 mo",
     payment: 692,
     insurance: 120,
     registration: 600,
     milage: 12000,
     down: 2919,
-  };
-
-  const teslaModelYBuy = {
-    title: "Tesla Model Y Buy 72mo",
+    repairs: 295
+  },
+  {
+    title: "Tesla Model Y Buy" ,
+    method: "Buy",
+    term: "72 mo",
     payment: 802,
     insurance: 120,
     registration: 600,
     milage: 12000,
     down: 0,
-  };
+    repairs: 295
+  },
+  {
+    title: "Used Tesla Model Y ",
+    method: "Buy",
+    term: "72 mo",
 
-  const teslaModelYUsed = {
-    title: "Used Tesla Model Y Buy 72mo",
     payment: 371,
     insurance: 120,
     registration: 600,
     milage: 12000,
     down: 0,
-  };
-  const cars = [teslaModel3, teslaModelY, teslaModelYBuy, teslaModelYUsed]
+    repairs: 295
+  }]
+  const iceCars = [
+    { title: "Toyota Camry 2020", tradeIn: 14600, payment: 475, registration: 379, insurance: 167, repairs: 441 },
+    { title: "Honda Accord 2020", tradeIn: 15965, payment: 450, registration: 371, insurance: 220, repairs: 428 },
+    { title: "Ford F-150 2020", tradeIn: 13830, payment: 489, registration: 468, insurance: 106, repairs: 775 },
+    { title: "Jeep Grand Cherokee", tradeIn: 14026, payment: 425, registration: 475, insurance: 179, repairs: 635 },
+    { title: "Other", tradeIn: 8000, payment: 250, registration: 250, insurance: 75 }
+  ];
 
   const [gasCost, setGasCost] = useState(350);
   const [milesDriven, setMilesDriven] = useState(1000);
-  const [tradeInValue, setTradeInValue] = useState(8000); // Trade-in value of ice vehicle
-  const [iceRegistration, setIceRegistration] = useState(250); // annual
+  const [tradeInValue, setTradeInValue] = useState(iceCars[0].tradeIn); // Trade-in value of ice vehicle
+  const [iceRegistration, setIceRegistration] = useState(iceCars[0].registration); // annual
   const [energyCost, setEnergyCost] = useState(0.45);
-  const [iceInsurance, setIceInsurance] = useState(75);
+  const [iceInsurance, setIceInsurance] = useState(iceCars[0].insurance);
   const [tolls, setTolls] = useState(0);
-  const [iceCarPayment, setIceCarPayment] = useState(250); // monthly ice car payment
-  const [iceRepairs, setIceRepairs] = useState(500); // annual repairs/maintenance
+  const [iceCarPayment, setIceCarPayment] = useState(iceCars[0].payment); // monthly ice car payment
+  const [iceRepairs, setIceRepairs] = useState(iceCars[0].repairs); // annual repairs/maintenance
   const [totalIceCarCost, setTotalIceCarCost] = useState(0);
 
-  const [selectedCarTitle, setSelectedCarTitle] = useState(teslaModel3.title);
-  const [evPayment, setEVPayment] = useState(teslaModel3.payment);
+  const [selectedCarTitle, setSelectedCarTitle] = useState(cars[0].title);
+  const [evPayment, setEVPayment] = useState(cars[0].payment);
   const [totalEVCost, setTotalEVCost] = useState(0);
-  const [evInsurance, setEVInsurance] = useState(teslaModel3.insurance);
-  const [evRegistration, setEVRegistration] = useState(teslaModel3.registration); // annual
-  const [evDown, setEVDown] = useState(teslaModel3.down); // Tesla due at signing
+  const [evInsurance, setEVInsurance] = useState(cars[0].insurance);
+  const [evRegistration, setEVRegistration] = useState(cars[0].registration); // annual
+  const [evDown, setEVDown] = useState(cars[0].down); // Tesla due at signing
 
   const LEASE_MONTHS = 36; // Tesla lease term in months
 
@@ -102,16 +119,21 @@ export default function HomeView() {
   const evEnergyCost = (parseFloat(milesDriven) * 0.25 * parseFloat(energyCost)) || 0;
   const percentCheaper = gasCost > 0 ? Math.round(100 * (1 - (evEnergyCost / gasCost))) : 0;
 
-  const iceCars = [
-    { title: "Toyota Camry" },
-    { title: "Honda Accord" },
-    { title: "Ford F-150" },
-    { title: "Other" }
-  ];
+
   const [selectedIceCarTitle, setSelectedIceCarTitle] = useState(iceCars[0].title);
   const [showIceDetails, setShowIceDetails] = useState(false);
   const [showEVDetails, setShowEVDetails] = useState(false);
 
+  useEffect(() => {
+    const selected = iceCars.find(car => car.title === selectedIceCarTitle);
+    if (selected) {
+      setIceCarPayment(selected.payment);
+      setIceRegistration(selected.registration);
+      setIceInsurance(selected.insurance);
+      setTradeInValue(selected.tradeIn);
+      setIceRepairs(selected.repairs);
+    }
+  }, [selectedIceCarTitle]);
 
   const evIsLower = totalEVCost < totalIceCarCost;
 
@@ -126,7 +148,7 @@ export default function HomeView() {
         <div className="flex flex-col md:flex-row gap-6 max-w-4xl mx-auto">
           {/* ICE Section */}
           <div className="flex-1 flex flex-col">
-            <h3 className="text-xl my-4">ICE Vehicle Monthly Costs</h3>
+            <h3 className="text-3xl my-4 text-center"> ⛽️ Gas</h3>
             <div id="iceParent" className="p-0 rounded-lg shadow-md mb-4 md:mb-0 flex-1 flex flex-col">
               <div className="my- mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 font-medium text-sm text-gray-400">Select Vehicle:</label>
@@ -183,7 +205,7 @@ export default function HomeView() {
 
 
               <div className="mb-3 border px-3 pt-2 rounded">
-                <label className="block mb-1 text-sm text-gray-400">Annual Registration</label>
+                <label className="block mb-1 text-sm text-gray-400">Annual Registration / Smog</label>
                 <div className="flex items-beginning">
                   <div className="text-xl mr-1">$</div>
                   <input
@@ -196,31 +218,22 @@ export default function HomeView() {
                 </div>
               </div>
 
-              <div className="mb-3 border px-3 pt-2 rounded">
-                <label className="block mb-1 text-sm text-gray-400">Miles</label>
-                <input
-                  type="text"
-                  value={formatNumber(milesDriven)}
-                  onChange={handleInputChange(setMilesDriven)}
-                  className="w-full p-0 pb-2 text-xl rounded"
-                  placeholder="Enter miles driven per month"
-                />
-              </div>
+          
+
 
               <div className="mb-3 border px-3 pt-2 rounded">
-                <label className="block mb-1 text-sm text-gray-400">Trade-In Value</label>
+                <label className="block mb-1 text-sm text-gray-400">Annual Repairs / Maintenance  </label>
                 <div className="flex items-beginning">
                   <div className="text-xl mr-1">$</div>
                   <input
                     type="text"
-                    value={formatNumber(tradeInValue)}
-                    onChange={handleInputChange(setTradeInValue)}
+                    value={formatNumber(iceRepairs)}
+                    onChange={handleInputChange(setIceRepairs)}
                     className="w-full p-0 pb-2 text-xl rounded"
-                    placeholder="Enter trade-in value"
+                    placeholder="Enter annual repairs/maintenance cost"
                   />
                 </div>
               </div>
-
 
               <div className="mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 text-sm text-gray-400">Tolls</label>
@@ -236,19 +249,32 @@ export default function HomeView() {
                 </div>
               </div>
 
+
               <div className="mb-3 border px-3 pt-2 rounded">
-                <label className="block mb-1 text-sm text-gray-400">Repairs / Maintenance (Annual)</label>
+                <label className="block mb-1 text-sm text-gray-400">Trade-In Value</label>
                 <div className="flex items-beginning">
                   <div className="text-xl mr-1">$</div>
                   <input
                     type="text"
-                    value={formatNumber(iceRepairs)}
-                    onChange={handleInputChange(setIceRepairs)}
+                    value={formatNumber(tradeInValue)}
+                    onChange={handleInputChange(setTradeInValue)}
                     className="w-full p-0 pb-2 text-xl rounded"
-                    placeholder="Enter annual repairs/maintenance cost"
+                    placeholder="Enter trade-in value"
                   />
                 </div>
               </div>
+
+              <div className="mb-3 border px-3 pt-2 rounded">
+                <label className="block mb-1 text-sm text-gray-400">Miles Driven</label>
+                <input
+                  type="text"
+                  value={formatNumber(milesDriven)}
+                  onChange={handleInputChange(setMilesDriven)}
+                  className="w-full p-0 pb-2 text-xl rounded"
+                  placeholder="Enter miles driven per month"
+                />
+              </div>
+
               <div className="flex-1" />
               {/* ICE Vehicle Totals */}
               <div className="flex items-center justify-center mb-2 mt-4">
@@ -261,19 +287,20 @@ export default function HomeView() {
               </div>
               {showIceDetails && (
                 <div className="ml-4 mt-2 bg-background rounded p-2 border">
-                  <div>Payment: <span className="font-mono">${parseFloat(iceCarPayment).toFixed(2)}</span></div>
-                  <div>Gas: <span className="font-mono">${parseFloat(gasCost).toFixed(2)}</span></div>
-                  <div>Insurance: <span className="font-mono">${parseFloat(iceInsurance).toFixed(2)}</span></div>
-                  <div>Registration: <span className="font-mono">${(parseFloat(iceRegistration) / 12).toFixed(2)}</span></div>
-                  <div>Repairs/Maint: <span className="font-mono">${(parseFloat(iceRepairs) / 12).toFixed(2)}</span></div>
-                  <div>Tolls: <span className="font-mono">${parseFloat(tolls).toFixed(2)}</span></div>
+                  <div className="flex">Payment: <span className="ml-auto font-mono">${parseFloat(iceCarPayment).toFixed(2)}</span></div>
+                  <div className="flex">Gas: <span className="ml-auto font-mono">${parseFloat(gasCost).toFixed(2)}</span></div>
+                  <div className="flex">Insurance: <span className="ml-auto font-mono">${parseFloat(iceInsurance).toFixed(2)}</span></div>
+                  <div className="flex">Registration: <span className="ml-auto font-mono">${(parseFloat(iceRegistration) / 12).toFixed(2)}</span></div>
+                  <div className="flex">Maintenance: <span className="ml-auto font-mono">${(parseFloat(iceRepairs) / 12).toFixed(2)}</span></div>
+                  <div className="flex">Tolls: <span className="ml-auto font-mono">${parseFloat(tolls).toFixed(2)}</span></div>
                 </div>
               )}
             </div>
           </div>
           {/* EV Section */}
           <div className="flex-1 flex flex-col">
-            <h3 className="text-xl my-4">EV Vehicle Monthly Costs</h3>
+
+            <h3 className="text-3xl my-4 text-center"> ⚡️ Electric</h3>
             <div id="evParent" className="p-0 rounded-lg shadow-md mb-0 flex-1 flex flex-col">
               <div className="my- mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 font-medium text-sm text-gray-400">Select EV:</label>
@@ -398,14 +425,14 @@ export default function HomeView() {
                 </div>
               </div>
               {showEVDetails && (
-                <div className="ml-4 mt-2 bg-background rounded p-2 border">
-                  <div>Payment: <span className="font-mono">${parseFloat(evPayment).toFixed(2)}</span></div>
-                  <div>Energy: <span className="font-mono">${(parseFloat(milesDriven) * 0.254 * parseFloat(energyCost)).toFixed(2)}</span></div>
-                  <div>Insurance: <span className="font-mono">${parseFloat(evInsurance).toFixed(2)}</span></div>
-                  <div>Registration: <span className="font-mono">${(parseFloat(evRegistration) / 12).toFixed(2)}</span></div>
-                  <div>Tolls: <span className="font-mono">${(parseFloat(tolls) / 2).toFixed(2)}</span></div>
-                  <div>Down: <span className="font-mono">${(parseFloat(evDown) / LEASE_MONTHS).toFixed(2)}</span></div>
-                  <div>Trade-In Credit: <span className="font-mono">-${((parseFloat(tradeInValue) || 0) / LEASE_MONTHS).toFixed(2)}</span></div>
+                <div className="ml-4 mt-2 bg-background rounded p-2 border ">
+                  <div className="flex">Payment: <span className="ml-auto font-mono">${parseFloat(evPayment).toFixed(2)}</span></div>
+                  <div className="flex">Energy: <span className="ml-auto font-mono">${(parseFloat(milesDriven) * 0.254 * parseFloat(energyCost)).toFixed(2)}</span></div>
+                  <div className="flex">Insurance: <span className="ml-auto font-mono">${parseFloat(evInsurance).toFixed(2)}</span></div>
+                  <div className="flex">Registration: <span className="ml-auto font-mono">${(parseFloat(evRegistration) / 12).toFixed(2)}</span></div>
+                  <div className="flex">Tolls: <span className="ml-auto font-mono">${(parseFloat(tolls) / 2).toFixed(2)}</span></div>
+                  <div className="flex">Down: <span className="ml-auto font-mono">${(parseFloat(evDown) / LEASE_MONTHS).toFixed(2)}</span></div>
+                  <div className="flex">Trade-In Credit: <span className="ml-auto font-mono">-${((parseFloat(tradeInValue) || 0) / LEASE_MONTHS).toFixed(2)}</span></div>
                 </div>
               )}
             </div>
@@ -416,7 +443,7 @@ export default function HomeView() {
           className="mt-12 mb-6 px-3 py-4 bg-green-700 text-white text-center text-3xl rounded-xl cursor-pointer font-semibold hover:bg-green-800 transition-colors"
           onClick={() => window.open('https://ts.la/stephen93119', '_blank')}
         >
-           {totalEVCost < totalIceCarCost
+          {totalEVCost < totalIceCarCost
             ? `Save $${(totalIceCarCost - totalEVCost).toFixed(2)} /month`
             : `Upgrade +$${(totalEVCost - totalIceCarCost).toFixed(2)} /month`}
         </div>

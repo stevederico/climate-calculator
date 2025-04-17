@@ -22,8 +22,8 @@ import { getCurrentUser } from '@stevederico/skateboard-ui/Utilities';
 import { ContextProvider, getState } from './context.jsx';
 import constants from './constants.json';
 
-import HomeView from './components/HomeView.jsx'
-import OtherView from './components/OtherView.jsx'
+import EVCalcView from './components/EVCalcView.jsx'
+import SolarCalcView from './components/SolarCalcView.jsx'
 
 const ProtectedRoute = () => {
   const auth = isAuthenticated();
@@ -81,9 +81,9 @@ const App = () => {
       <Route element={<Layout />}>
         <Route path="/console" element={<Navigate to="/app" replace />} />
         <Route path="/app" element={<ProtectedRoute />}>
-              <Route index element={<Navigate to="home" replace />} />
-              <Route path="home" element={<HomeView />} />
-              <Route path="other" element={<OtherView />} />
+              <Route index element={<Navigate to="ev" replace />} />
+              <Route path="ev" element={<EVCalcView />} />
+              <Route path="solar" element={<SolarCalcView />} />
               <Route path="settings" element={<SettingsView />} />
               <Route path="stripe" element={<StripeView />} />
         </Route>
