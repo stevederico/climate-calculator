@@ -1,2 +1,6 @@
 created with npm create astro@latest
 npx astro add react tailwindcss
+
+HOW TO 
+- $ deno run build
+- copy dist contents into BXClimate-Web/public/blog
