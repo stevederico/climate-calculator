@@ -36,6 +36,13 @@ added FAQ Section
 added self driving section
 
 0.0.3
+added a markdown blog
+updated bixby-proxy to handle the /blog
+added blog index page
+- add better styling to blog
+- add analytics
+// <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
 
 
 - Handle Cash/Finance instead of just lease

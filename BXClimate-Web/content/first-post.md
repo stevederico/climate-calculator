@@ -1,6 +1,6 @@
 <!-- content/first-post.md -->
 
-# First Post
+### First Post
 
 *Published on April 21, 2025*
 
@@ -17,3 +17,4 @@ Welcome to my new Deno‑powered static blog. In this post, I’ll walk through 
 ```js
 // logs a greeting
 console.log("Hello, static blog!");
+```
