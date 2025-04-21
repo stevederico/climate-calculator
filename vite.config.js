@@ -11,13 +11,6 @@ export default defineConfig({
   esbuild: {
     drop: ['console', 'debugger'],
   },
-  base: '/',
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    copyPublicDir: true,
-  },
-  publicDir: 'public',
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
@@ -27,15 +20,5 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['react-dom'],
-  },
-  appType: 'mpa', 
-  server: {
-    historyApiFallback: {
-      verbose: true, // Log rewrite details
-      rewrites: [
-        { from: /^\/blog$/, to: '/blog/index.html' }, // Exact match for /blog
-        { from: /^\/blog\/$/, to: '/blog/index.html' }, // Match /blog/
-      ],
-    },
   },
 });
