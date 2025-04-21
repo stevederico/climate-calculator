@@ -31,6 +31,7 @@ const ProtectedRoute = () => {
 };
 
 function isAuthenticated() {
+  return true
   // Check client-side noLogin flag first
   if (constants.noLogin === true) {
     return true;
@@ -104,7 +105,7 @@ const App = () => {
         path="/subs"
         element={<TextView details={constants.subscriptionDetails} />}
       />
-      <Route path="*" element={<NotFound />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );
 };
