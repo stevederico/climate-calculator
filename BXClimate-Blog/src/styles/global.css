@@ -60,19 +60,19 @@ h6 {
 	line-height: 1.2;
 }
 h1 {
-	font-size: 3.052em;
+    font-size: 1.98em; /* 3.052 * 0.65 */
 }
 h2 {
-	font-size: 2.441em;
+    font-size: 1.59em; /* 2.441 * 0.65 */
 }
 h3 {
-	font-size: 1.953em;
+    font-size: 1.27em; /* 1.953 * 0.65 */
 }
 h4 {
-	font-size: 1.563em;
+    font-size: 1.02em; /* 1.563 * 0.65 */
 }
 h5 {
-	font-size: 1.25em;
+    font-size: 0.81em; /* 1.25 * 0.65 */
 }
 strong,
 b {
