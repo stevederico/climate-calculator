@@ -3,10 +3,11 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prod": "astro build;  cp -r ./dist/* ../BXClimate-Web/public/blog"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.4",
