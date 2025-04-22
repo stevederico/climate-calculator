@@ -3,3 +3,4 @@
 
 export const SITE_TITLE = 'Climate Blog';
 export const SITE_DESCRIPTION = 'A blog about climate change and sustainability';
+export const SITE_COMPANY = 'Company Inc';
