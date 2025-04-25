@@ -1,7 +1,7 @@
 {
     "appName": "Climate",
     "appIcon": "tree-pine",
-    "tagline": "Save the planet",
+    "tagline": "Green Energy Tracker",
     "backendURL": "https://bob.bixbyapps.com",
     "devBackendURL": "http://localhost:3000",
     "pages": [
