@@ -7,7 +7,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-app: var(--color-green-700);
+  --color-app: var(--color-green-800);
 }
 
 :root {
