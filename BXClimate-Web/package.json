@@ -12,18 +12,18 @@
 
   },
   "dependencies": {
-    "@stevederico/skateboard-ui": "*",
+    "@stevederico/skateboard-ui": "0.4.0",
     "lucide-react": "^0.488.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.3.0",
+    "react-router-dom": "^7.6.0",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.7",
-    "@vitejs/plugin-react-swc": "^3.8.0",
+    "@tailwindcss/vite": "^4.1.5",
+    "@vitejs/plugin-react-swc": "^3.9.0",
     "tailwindcss": "4.0.0",
-    "vite": "^6.2.2"
+    "vite": "^6.3.5"
   }
 }
 
