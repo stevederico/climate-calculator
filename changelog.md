@@ -39,6 +39,13 @@ added self driving section
 added a markdown blog
 updated bixby-proxy to handle the /blog
 added blog index page
+0.0.4
+removed login
+0.2.0
+
+
+
+
 - add better styling to blog
 - add analytics
 // <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>

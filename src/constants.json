@@ -22,6 +22,7 @@
         "interval": "monthly",
         "lookup_key": "climate_monthly"
     }],
+    "noLogin": true,
     "companyName": "Bixby Apps, LLC",
     "companyWebsite": "www.bixbyapps.com",
     "companyEmail": "support@company.com",
