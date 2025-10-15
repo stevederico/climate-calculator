@@ -1,7 +1,7 @@
 {
   "name": "bxclimate",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "scripts": {
     "serve": "vite --force --mode development",
@@ -12,7 +12,7 @@
 
   },
   "dependencies": {
-    "@stevederico/skateboard-ui": "0.4.2",
+    "@stevederico/skateboard-ui": "0.9.8",
     "lucide-react": "^0.509.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

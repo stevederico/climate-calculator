@@ -2,6 +2,7 @@
     "appName": "Pine",
     "appIcon": "tree-pine",
     "tagline": "Green Energy Tracker",
+    "cta": "Open the App",
     "backendURL": "https://bob.bixbyapps.com",
     "devBackendURL": "http://localhost:3000",
     "pages": [
@@ -16,6 +17,26 @@
             "icon": "sun"
         }
     ],
+    "features": {
+        "title": "Why Pine stands out",
+        "items": [
+            {
+                "title": "Track carbon in real time",
+                "description": "Monitor your household footprint with live data across EV and solar.",
+                "icon": "🌲"
+            },
+            {
+                "title": "Forecast savings",
+                "description": "Plan energy usage with predictive insights and personalized alerts.",
+                "icon": "📈"
+            },
+            {
+                "title": "Share progress",
+                "description": "Invite your household and compare improvements over time.",
+                "icon": "🤝"
+            }
+        ]
+    },
     "stripeProducts": [{
         "price": "$5.00",
         "title": "Monthly Plan",

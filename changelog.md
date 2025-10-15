@@ -46,6 +46,15 @@ removed login
 
 
 
+0.2.1
+
+  Add tailwindcss-animate plugin
+  Remove commented code
+  Clean unused imports
+  Fix body style
+  Update vite config
+  Remove debug logging
+
 - add better styling to blog
 - add analytics
 // <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
