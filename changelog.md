@@ -46,6 +46,13 @@ removed login
 
 
 
+0.3.0
+
+  Update dependencies
+  Remove context.jsx
+  Update vite configuration
+  Update styles
+
 0.2.1
 
   Add tailwindcss-animate plugin
