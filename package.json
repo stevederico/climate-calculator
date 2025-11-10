@@ -12,7 +12,7 @@
 
   },
   "dependencies": {
-    "@stevederico/skateboard-ui": "1.0.9",
+    "@stevederico/skateboard-ui": "1.2.0",
     "lucide-react": "^0.509.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

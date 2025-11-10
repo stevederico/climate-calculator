@@ -106,7 +106,7 @@ export default function EVCalcView() {
     setTotalIceCarCost(gasMonthly + tollsMonthly + insuranceMonthly + iceRegMonthly + iceRepairsMonthly + icePaymentMonthly);
 
     const miles = parseFloat(milesDriven) || 0;
-    const energyMonthly = miles * 0.25 * (parseFloat(energyCost) || 0);
+    const energyMonthly = miles * 0.3 * (parseFloat(energyCost) || 0);
     const evTolls = tollsMonthly / 2;
     const evIns = parseFloat(evInsurance) || 0;
     const evRegMonthly = (parseFloat(evRegistration) || 0) / 12;
@@ -116,11 +116,11 @@ export default function EVCalcView() {
   }, [gasCost, milesDriven, evPayment, energyCost, tolls, iceInsurance, evInsurance, tradeInValue, iceRegistration, evRegistration, evDown, iceCarPayment, iceRepairs]);
 
   const handleInputChange = (setter) => (e) => {
-    setter(parseNumberInput(e.target.value));
+    setter(Math.max(0, parseNumberInput(e.target.value)));
   };
 
   // Calculate EV energy cost and percent cheaper
-  const evEnergyCost = (parseFloat(milesDriven) * 0.25 * parseFloat(energyCost)) || 0;
+  const evEnergyCost = (parseFloat(milesDriven) * 0.3 * parseFloat(energyCost)) || 0;
   const percentCheaper = gasCost > 0 ? Math.round(100 * (1 - (evEnergyCost / gasCost))) : 0;
 
 
@@ -428,7 +428,7 @@ export default function EVCalcView() {
               {showEVDetails && (
                 <div className="ml-4 mt-2 bg-background rounded p-2 border ">
                   <div className="flex">Payment: <span className="ml-auto font-mono">${parseFloat(evPayment).toFixed(2)}</span></div>
-                  <div className="flex">Energy: <span className="ml-auto font-mono">${(parseFloat(milesDriven) * 0.254 * parseFloat(energyCost)).toFixed(2)}</span></div>
+                  <div className="flex">Energy: <span className="ml-auto font-mono">${(parseFloat(milesDriven) * 0.3 * parseFloat(energyCost)).toFixed(2)}</span></div>
                   <div className="flex">Insurance: <span className="ml-auto font-mono">${parseFloat(evInsurance).toFixed(2)}</span></div>
                   <div className="flex">Registration: <span className="ml-auto font-mono">${(parseFloat(evRegistration) / 12).toFixed(2)}</span></div>
                   <div className="flex">Tolls: <span className="ml-auto font-mono">${(parseFloat(tolls) / 2).toFixed(2)}</span></div>
@@ -454,12 +454,12 @@ export default function EVCalcView() {
           const monthlyDelta = totalIceCarCost - totalEVCost;
           const upfrontDelta = parseFloat(evDown) - parseFloat(tradeInValue);
           let payoffYears = null;
-          if (monthlyDelta > 0 && upfrontDelta > 0) {
-            payoffYears = (upfrontDelta / (monthlyDelta * 12));
+          if (monthlyDelta > 0) {
+            payoffYears = Math.max(0, upfrontDelta) / (monthlyDelta * 12);
           }
           return (
             <div className="text-center text-lg mb-4">
-              Payoff: {payoffYears && isFinite(payoffYears) && payoffYears > 0 ? payoffYears.toFixed(1) + ' years' : '∞'}
+              Payoff: {payoffYears !== null && isFinite(payoffYears) ? payoffYears.toFixed(1) + ' years' : '∞'}
             </div>
           );
         })()}
