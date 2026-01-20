@@ -1,6 +1,10 @@
 deno install
 set color in styles.css
 
+0.5.1
+
+  Update crypto import
+
 0.5.0
 
   Add Railway deployment
