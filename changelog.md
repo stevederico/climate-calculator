@@ -1,6 +1,12 @@
 deno install
 set color in styles.css
 
+0.5.0
+
+  Add Railway deployment
+  Add analytics tracking
+  Update Dockerfile
+
 0.4.0
 
   Add backend workspace

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import DynamicIcon from '@stevederico/skateboard-ui/DynamicIcon';
+import { trackEvent } from '../utils/analytics';
 
 // Utility to format numbers with commas
 function formatNumber(val) {
@@ -126,6 +127,11 @@ export default function EVCalcView() {
   const [showIceDetails, setShowIceDetails] = useState(false);
   const [showEVDetails, setShowEVDetails] = useState(false);
 
+  // Track page view on mount
+  useEffect(() => {
+    trackEvent('ev-calculator-viewed');
+  }, []);
+
   useEffect(() => {
     const selected = iceCars.find(car => car.title === selectedIceCarTitle);
     if (selected) {
@@ -134,6 +140,7 @@ export default function EVCalcView() {
       setIceInsurance(selected.insurance);
       setTradeInValue(selected.tradeIn);
       setIceRepairs(selected.repairs);
+      trackEvent('ice-vehicle-selected', { vehicle: selectedIceCarTitle });
     }
   }, [selectedIceCarTitle]);
 
@@ -279,7 +286,10 @@ export default function EVCalcView() {
               <div className="flex items-center justify-center mb-2 mt-4">
                 <div id="iceTotal"
                   className={`font-semibold text-3xl cursor-pointer bg-accent px-4 py-2 rounded w-full text-center min-w-[220px]`}
-                  onClick={() => setShowIceDetails(v => !v)}
+                  onClick={() => {
+                    setShowIceDetails(v => !v);
+                    trackEvent('ice-details-toggled', { show: !showIceDetails });
+                  }}
                 >
                   <span className="font-mono">${totalIceCarCost.toFixed(2)}</span>
                 </div>
@@ -313,6 +323,7 @@ export default function EVCalcView() {
                       setEVInsurance(selectedCar.insurance);
                       setEVRegistration(selectedCar.registration);
                       setEVDown(selectedCar.down);
+                      trackEvent('ev-vehicle-selected', { vehicle: selectedCar.title });
                     }
                   }}
                   className="w-full p-0 pb-2 text-xl rounded"
@@ -418,7 +429,10 @@ export default function EVCalcView() {
               <div className="flex items-center justify-center mb-2 mt-4">
                 <div id="evTotal"
                   className={`font-semibold text-3xl cursor-pointer bg-accent px-4 py-2 rounded w-full text-center min-w-[220px]${evIsLower ? ' text-green-500' : ''}`}
-                  onClick={() => setShowEVDetails(v => !v)}
+                  onClick={() => {
+                    setShowEVDetails(v => !v);
+                    trackEvent('ev-details-toggled', { show: !showEVDetails });
+                  }}
                 >
                   <span className="font-mono">${totalEVCost.toFixed(2)}</span>
                 </div>
@@ -440,7 +454,16 @@ export default function EVCalcView() {
 
         <div
           className="mt-12 mb-6 px-3 py-4 bg-green-700 text-white text-center text-3xl rounded-xl cursor-pointer font-semibold hover:bg-green-800 transition-colors"
-          onClick={() => window.open('https://ts.la/stephen93119', '_blank')}
+          onClick={() => {
+            trackEvent('referral-cta-clicked', {
+              savings: totalIceCarCost - totalEVCost,
+              evCost: totalEVCost,
+              iceCost: totalIceCarCost,
+              evVehicle: selectedCarTitle,
+              iceVehicle: selectedIceCarTitle
+            });
+            window.open('https://ts.la/stephen93119', '_blank');
+          }}
         >
           {totalEVCost < totalIceCarCost
             ? `Save $${(totalIceCarCost - totalEVCost).toFixed(2)} /month`

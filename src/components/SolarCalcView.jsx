@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { trackEvent } from '../utils/analytics';
 
 export default function SolarCalcView() {
   // Utility functions
@@ -24,6 +25,11 @@ export default function SolarCalcView() {
 
   // Handlers
   const handleInputChange = setter => e => setter(Math.max(0, parseNumberInput(e.target.value)));
+
+  // Track page view on mount
+  useEffect(() => {
+    trackEvent('solar-calculator-viewed');
+  }, []);
 
   // Calculate solarAmount (system cost) from payment, term, apr, down
   // Formula: P = (A * r) / (1 - (1 + r)^-n), solve for A
@@ -143,7 +149,15 @@ export default function SolarCalcView() {
               <div className="flex items-center justify-center mb-2 mt-4">
                 <div
                   className={`font-semibold text-3xl bg-accent px-4 py-2 rounded w-full text-center min-w-[180px] cursor-pointer ${diff > 0 ? 'text-green-500' : 'text-red-500'}`}
-                  onClick={() => setShowSolarDetails(v => !v)}
+                  onClick={() => {
+                    setShowSolarDetails(v => !v);
+                    trackEvent('solar-details-toggled', {
+                      show: !showSolarDetails,
+                      savings: diff,
+                      solarCost: solarTotal,
+                      gridCost: gridTotal
+                    });
+                  }}
                 >
                   <span className="font-mono">${solarTotal.toFixed(2)}</span>
                 </div>
