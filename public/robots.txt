@@ -37,5 +37,5 @@ Disallow: /signup/
 User-agent: *
 Disallow: /
 
-Sitemap: https://climate.bixbyapps.com/sitemap.xml
-Sitemap: https://climate.bixbyapps.com/blog/sitemap-index.xml
+Sitemap: https://www.example.com/sitemap.xml
+Sitemap: https://www.example.com/blog/sitemap-index.xml

@@ -1,6 +1,4 @@
-import Header from '@stevederico/skateboard-ui/Header';
-import { useEffect, useState, useRef } from "react";
-import { getBackendURL, getCookie, timestampToString, isSubscriber } from '@stevederico/skateboard-ui/Utilities';
+import { useState } from "react";
 
 export default function SolarCalcView() {
   // Utility functions
@@ -107,7 +105,7 @@ export default function SolarCalcView() {
                   />
                 </div>
               </div>
-   
+
               <div className="mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 text-sm text-gray-400">Down Payment</label>
                 <div className="flex items-beginning">

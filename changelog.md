@@ -1,5 +1,13 @@
 deno install
 set color in styles.css
+
+0.4.0
+
+  Add backend workspace
+  Add documentation
+  Add Dockerfile
+  Remove blog content
+  Update calculators
 "backendURL": "https://bob.bixbyapps.com",
 "devBackendURL": "http://localhost:3000",
 "prod": "vite build --mode production; cp -r ./dist/* ../bixby-proxy/public/vegas.bixbyapps.com"
@@ -17,10 +25,10 @@ added ICE repairs
 added referral link
 0.0.2
 BENEFITS
-Free HOV Lane 
-No more smog checks! 
+Free HOV Lane
+No more smog checks!
 No oil changes needed – just add washer fluid and change brakes every 50k miles, that's it!
-EV regen in city, ICE is worse 
+EV regen in city, ICE is worse
 Tesla Less 20 moving parts, less repairs, warranty
 No keys required
 never go to a gas station again!
@@ -81,6 +89,5 @@ removed login
 
 
 https://ts.la/stephen93119
-
 
 
