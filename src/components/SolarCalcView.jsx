@@ -1,18 +1,13 @@
 import { useState, useEffect } from "react";
 import { trackEvent } from '../utils/analytics';
+import { formatNumber, parseNumberInput } from '../utils/formatting';
 
+/**
+ * Solar Calculator View - Compare monthly costs between grid electricity and solar
+ * Calculates payoff period based on loan terms, down payment, and monthly savings
+ * @returns {JSX.Element} Solar calculator interface
+ */
 export default function SolarCalcView() {
-  // Utility functions
-  function formatNumber(val) {
-    if (val === null || val === undefined || isNaN(val)) return '';
-    return val.toLocaleString('en-US');
-  }
-  function parseNumberInput(val) {
-    if (typeof val === 'string') {
-      return parseFloat(val.replace(/,/g, '')) || 0;
-    }
-    return val || 0;
-  }
 
   // State
   const [gridBill, setGridBill] = useState(330);
@@ -31,24 +26,27 @@ export default function SolarCalcView() {
     trackEvent('solar-calculator-viewed');
   }, []);
 
-  // Calculate solarAmount (system cost) from payment, term, apr, down
-  // Formula: P = (A * r) / (1 - (1 + r)^-n), solve for A
-  // A = (P * (1 - (1 + r)^-n)) / r
+  /**
+   * Calculate solar system cost from payment, term, apr, and down payment
+   * Uses loan amortization formula: A = (P * (1 - (1 + r)^-n)) / r
+   * Where: A = principal, P = payment, r = monthly rate, n = term months
+   */
   const monthlyRate = apr / 100 / 12;
-  const principal = monthlyRate > 0
-    ? (loanPayment * (1 - Math.pow(1 + monthlyRate, -termMonths))) / monthlyRate
-    : loanPayment * termMonths;
+  const principal = termMonths > 0
+    ? (monthlyRate > 0
+        ? (loanPayment * (1 - Math.pow(1 + monthlyRate, -termMonths))) / monthlyRate
+        : loanPayment * termMonths)
+    : 0;
   const solarAmount = parseFloat(solarDown) + principal;
 
-  // Calculations
+  // Calculate monthly costs and savings
   const gridTotal = parseFloat(gridBill) || 0;
   const solarTotal = (parseFloat(solarMonthly) || 0) + parseFloat(loanPayment);
-  const diff = gridTotal - solarTotal;
+  const monthlySavings = gridTotal - solarTotal;
 
   // Payoff calculation (total cost = loan payments + down payment)
   const totalLoanCost = parseFloat(loanPayment) * termMonths + parseFloat(solarDown);
-  const monthlySavings = gridTotal - solarTotal;
-  const payoffMonths = monthlySavings > 0 ? Math.ceil(totalLoanCost / monthlySavings) : 0;
+  const payoffMonths = monthlySavings > 0 ? Math.ceil(totalLoanCost / monthlySavings) : Infinity;
 
   return (
     <>
@@ -148,12 +146,12 @@ export default function SolarCalcView() {
               <div className="flex-1" />
               <div className="flex items-center justify-center mb-2 mt-4">
                 <div
-                  className={`font-semibold text-3xl bg-accent px-4 py-2 rounded w-full text-center min-w-[180px] cursor-pointer ${diff > 0 ? 'text-green-500' : 'text-red-500'}`}
+                  className={`font-semibold text-3xl bg-accent px-4 py-2 rounded w-full text-center min-w-[180px] cursor-pointer ${monthlySavings > 0 ? 'text-green-500' : 'text-red-500'}`}
                   onClick={() => {
                     setShowSolarDetails(v => !v);
                     trackEvent('solar-details-toggled', {
                       show: !showSolarDetails,
-                      savings: diff,
+                      savings: monthlySavings,
                       solarCost: solarTotal,
                       gridCost: gridTotal
                     });
@@ -175,13 +173,15 @@ export default function SolarCalcView() {
         </div>
         <div className="mt-4 mb-2 px-3 py-3 bg-accent rounded-xl text-center text-xl font-semibold">
           {monthlySavings > 0
-            ? `Payoff: ${payoffMonths} months (based on $${monthlySavings.toFixed(2)} monthly savings)`
-            : 'Payoff: ∞'}
+            ? `Payoff: ${payoffMonths} months (${(payoffMonths / 12).toFixed(1)} years)`
+            : monthlySavings === 0
+              ? 'Payoff: ∞ - Monthly costs break even'
+              : `Payoff: ∞ - Solar costs $${Math.abs(monthlySavings).toFixed(2)}/mo more`}
         </div>
         <div className="mt-8 mb-6 px-3 py-4 bg-green-700 text-white text-center text-3xl rounded-xl font-semibold">
-          {diff > 0
-            ? `Save $${diff.toFixed(2)} /month`
-            : `+${Math.abs(diff).toFixed(2)} /month vs grid`}
+          {monthlySavings > 0
+            ? `Save $${monthlySavings.toFixed(2)} /month`
+            : `+$${Math.abs(monthlySavings).toFixed(2)} /month vs grid`}
         </div>
       </div>
     </>

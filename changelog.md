@@ -1,6 +1,15 @@
 deno install
 set color in styles.css
 
+0.5.2
+
+  Fix EV payoff
+  Fix vehicle efficiency
+  Fix term months
+  Add shared utilities
+  Fix solar validation
+  Improve payoff display
+
 0.5.1
 
   Update crypto import
