@@ -1,3 +1,7 @@
+0.5.3
+
+  Update Dockerfile node:22-alpine
+
 deno install
 set color in styles.css
 
