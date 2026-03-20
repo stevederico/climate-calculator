@@ -1,24 +1,34 @@
 {
+    "version": "0.1.0",
+    "design": {
+        "baseColor": "neutral",
+        "radius": "medium",
+        "font": "geist",
+        "iconLibrary": "lucide"
+    },
     "appName": "Pine",
     "appIcon": "tree-pine",
     "tagline": "Green Energy Tracker",
     "cta": "Get Started",
+    "ctaHeading": "Ready to Get Started?",
     "noLogin": true,
+    "authOverlay": true,
+    "sidebarCollapsed": false,
     "features": {
         "title": "Everything You Need",
         "items": [
             {
-                "icon": "⚡",
+                "icon": "\u26a1",
                 "title": "EV Calculator",
                 "description": "Compare electric vs gas vehicle costs"
             },
             {
-                "icon": "☀️",
+                "icon": "\u2600\ufe0f",
                 "title": "Solar Calculator",
                 "description": "Compare grid vs solar energy costs"
             },
             {
-                "icon": "🌲",
+                "icon": "\ud83c\udf32",
                 "title": "Go Green",
                 "description": "Make informed decisions for a sustainable future"
             }
@@ -39,6 +49,38 @@
         }
     ],
     "stripeProducts": [],
+    "pricing": {
+        "title": "Simple, Transparent Pricing",
+        "extras": [
+            "Priority Customer Support",
+            "Cancel Anytime"
+        ]
+    },
+    "navLinks": [
+        {
+            "label": "Features",
+            "href": "#features"
+        },
+        {
+            "label": "Pricing",
+            "href": "#pricing"
+        }
+    ],
+    "footerLinks": [
+        {
+            "label": "Privacy",
+            "href": "/privacy"
+        },
+        {
+            "label": "Terms",
+            "href": "/terms"
+        },
+        {
+            "label": "EULA",
+            "href": "/eula"
+        }
+    ],
+    "copyrightText": "All rights reserved.",
     "companyName": "Pine",
     "companyWebsite": "pine.app",
     "companyEmail": "support@pine.app",
