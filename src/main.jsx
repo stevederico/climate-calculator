@@ -21,6 +21,7 @@ import { createSkateboardApp } from '@stevederico/skateboard-ui/App';
 import constants from './constants.json';
 import EVCalcView from './components/EVCalcView.jsx';
 import SolarCalcView from './components/SolarCalcView.jsx';
+import AnalyticsProvider from './components/AnalyticsProvider.jsx';
 
 /**
  * Application route configuration
@@ -53,5 +54,6 @@ const appRoutes = [
 createSkateboardApp({
   constants,
   appRoutes,
-  defaultRoute: 'ev'
+  defaultRoute: 'ev',
+  wrapper: AnalyticsProvider
 });

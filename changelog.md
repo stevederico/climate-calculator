@@ -1,3 +1,9 @@
+0.7.0
+
+  Add advanced analytics tracking
+  Add AnalyticsProvider wrapper
+  Add localhost analytics guard
+
 0.6.0
 
   Add analytics data-domains
