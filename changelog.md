@@ -1,3 +1,7 @@
+0.8.0
+
+  Fix analytics CSP
+
 0.7.0
 
   Add advanced analytics tracking
