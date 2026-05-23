@@ -1,3 +1,11 @@
+0.9.0
+
+  Upgrade skateboard to 3.4.0 (skateboard-ui 3.7.0)
+  Bump React 19.2.6, Vite 8.0.13, Tailwind 4.3.0
+  Migrate react-router-dom to react-router 7.15.0
+  Drop unused deps: lucide-react, recharts, sonner, zod, next-themes, @dnd-kit/*, @tanstack/react-table, tailwindcss-animate
+  Remove use-sync-external-store shim plugin and src/shims/
+
 0.8.0
 
   Fix analytics CSP
