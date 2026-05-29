@@ -18,17 +18,17 @@
         "title": "Everything You Need",
         "items": [
             {
-                "icon": "\u26a1",
+                "icon": "ev-charger",
                 "title": "EV Calculator",
                 "description": "Compare electric vs gas vehicle costs"
             },
             {
-                "icon": "\u2600\ufe0f",
+                "icon": "solar-panel",
                 "title": "Solar Calculator",
                 "description": "Compare grid vs solar energy costs"
             },
             {
-                "icon": "\ud83c\udf32",
+                "icon": "leaf",
                 "title": "Go Green",
                 "description": "Make informed decisions for a sustainable future"
             }

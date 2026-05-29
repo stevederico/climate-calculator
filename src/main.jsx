@@ -18,10 +18,30 @@
  */
 import './assets/styles.css';
 import { createSkateboardApp } from '@stevederico/skateboard-ui/App';
+import Layout from '@stevederico/skateboard-ui/Layout';
 import constants from './constants.json';
 import EVCalcView from './components/EVCalcView.jsx';
 import SolarCalcView from './components/SolarCalcView.jsx';
 import AnalyticsProvider from './components/AnalyticsProvider.jsx';
+import CommandMenu from './components/CommandMenu.jsx';
+import LandingSpecSheet from './components/LandingSpecSheet.jsx';
+
+/**
+ * App layout with global command menu overlay.
+ *
+ * Wraps the default skateboard-ui Layout and injects CommandMenu
+ * so the Cmd+K shortcut is available on all authenticated routes.
+ *
+ * @returns {JSX.Element} Layout with command menu
+ */
+function AppLayout() {
+  return (
+    <>
+      <CommandMenu />
+      <Layout />
+    </>
+  );
+}
 
 /**
  * Application route configuration
@@ -55,5 +75,7 @@ createSkateboardApp({
   constants,
   appRoutes,
   defaultRoute: 'ev',
-  wrapper: AnalyticsProvider
+  landingPage: <LandingSpecSheet />,
+  wrapper: AnalyticsProvider,
+  overrides: { layout: AppLayout }
 });
