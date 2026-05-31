@@ -24,7 +24,6 @@ import EVCalcView from './components/EVCalcView.jsx';
 import SolarCalcView from './components/SolarCalcView.jsx';
 import AnalyticsProvider from './components/AnalyticsProvider.jsx';
 import CommandMenu from './components/CommandMenu.jsx';
-import LandingSpecSheet from './components/LandingSpecSheet.jsx';
 
 /**
  * App layout with global command menu overlay.
@@ -75,7 +74,6 @@ createSkateboardApp({
   constants,
   appRoutes,
   defaultRoute: 'ev',
-  landingPage: <LandingSpecSheet />,
   wrapper: AnalyticsProvider,
   overrides: { layout: AppLayout }
 });
