@@ -50,10 +50,10 @@ const htmlReplacePlugin = () => {
  * Dynamic robots.txt generation plugin
  *
  * Generates robots.txt at build time with:
- * - Default allow for all bots
- * - Explicit allow for AI search bots (GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended)
- * - Block training-only crawlers (CCBot)
+ * - Bot-specific rules (Googlebot, Bingbot, Applebot, social crawlers)
+ * - Protected routes (/app/, /console/, /signin/, /signup/)
  * - Sitemap reference from constants.json
+ * - Disallows all other bots from entire site
  *
  * @returns {import('vite').Plugin} Vite plugin object
  */
@@ -234,7 +234,7 @@ export default defineConfig({
     drop: []
   },
   resolve: {
-    dedupe: ['react', 'react-dom'],
+    dedupe: ['react', 'react-dom', 'react-router-dom', 'react-router'],
     alias: {
       '@': path.resolve(process.cwd(), './src'),
       '@package': path.resolve(process.cwd(), 'package.json'),
@@ -250,6 +250,7 @@ export default defineConfig({
       'react-dom',
       'react-dom/client',
       '@radix-ui/react-slot',
+      'react-router-dom',
       'react-router',
       'cookie',
       'set-cookie-parser'
@@ -289,8 +290,10 @@ export default defineConfig({
     open: false,
     port: 5173,
     strictPort: false,
+    // Don't pin the HMR port — Vite derives it from the resolved server port.
+    // Hardcoding 5173 broke HMR ("WebSocket closed without opened") whenever
+    // 5173 was taken and the server fell back to 5174 while HMR still dialed 5173.
     hmr: {
-      port: 5173,
       overlay: false
     },
     watch: {
