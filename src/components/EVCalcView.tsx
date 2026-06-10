@@ -1,18 +1,49 @@
-import { useEffect, useState, useMemo } from "react";
+import type { ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import DynamicIcon from '@stevederico/skateboard-ui/DynamicIcon';
 import { trackEvent } from '../utils/analytics';
 import { formatNumber, parseNumberInput } from '../utils/formatting';
 import { calculatePayoffMonths } from '../utils/calculations';
 
+/** A selectable electric vehicle and its cost/efficiency profile. */
+interface EVCar {
+  title: string;
+  method: string;
+  term: string;
+  termMonths: number;
+  range: number;
+  payment: number;
+  insurance: number;
+  registration: number;
+  milage: number;
+  down: number;
+  repairs: number;
+  /** kWh per mile (EPA rating) */
+  efficiency: number;
+}
+
+/** A selectable gas (ICE) vehicle and its cost profile. */
+interface IceCar {
+  title: string;
+  tradeIn: number;
+  payment: number;
+  registration: number;
+  insurance: number;
+  /** Annual repairs/maintenance (omitted for some entries) */
+  repairs?: number;
+  /** Range on a full tank in miles (omitted for some entries) */
+  range?: number;
+}
+
 /**
  * EV Calculator View - Compare monthly costs between gas and electric vehicles
  * Calculates total ownership costs including payments, fuel/energy, insurance, registration, and trade-in value
- * @returns {JSX.Element} EV calculator interface
+ * @returns EV calculator interface
  */
 export default function EVCalcView() {
 
   // Vehicle data with efficiency (kWh/mile) and term (months) for accurate calculations
-  const cars = [{
+  const cars: EVCar[] = [{
     title: "Tesla Model 3",
     method: "Lease",
     term: "36 mo",
@@ -68,7 +99,7 @@ export default function EVCalcView() {
     repairs: 295,
     efficiency: 0.28  // kWh per mile (EPA rating)
   }]
-  const iceCars = [
+  const iceCars: IceCar[] = [
     { title: "Toyota Camry 2020", tradeIn: 14600, payment: 475, registration: 379, insurance: 167, repairs: 441, range: 536 },
     { title: "Honda Accord 2020", tradeIn: 15965, payment: 450, registration: 371, insurance: 220, repairs: 428, range: 562 },
     { title: "Ford F-150 2020", tradeIn: 13830, payment: 489, registration: 468, insurance: 106, repairs: 775, range: 550 },
@@ -84,7 +115,7 @@ export default function EVCalcView() {
   const [iceInsurance, setIceInsurance] = useState(iceCars[0].insurance);
   const [tolls, setTolls] = useState(0);
   const [iceCarPayment, setIceCarPayment] = useState(iceCars[0].payment); // monthly ice car payment
-  const [iceRepairs, setIceRepairs] = useState(iceCars[0].repairs); // annual repairs/maintenance
+  const [iceRepairs, setIceRepairs] = useState(iceCars[0].repairs ?? 0); // annual repairs/maintenance
   const [totalIceCarCost, setTotalIceCarCost] = useState(0);
 
   const [selectedCarTitle, setSelectedCarTitle] = useState(cars[0].title);
@@ -100,30 +131,30 @@ export default function EVCalcView() {
   const efficiency = selectedCar?.efficiency || 0.28;
 
   useEffect(() => {
-    const gasMonthly = parseFloat(gasCost) || 0;
-    const tollsMonthly = parseFloat(tolls) || 0;
-    const insuranceMonthly = parseFloat(iceInsurance) || 0;
-    const iceRegMonthly = (parseFloat(iceRegistration) || 0) / 12;
-    const iceRepairsMonthly = (parseFloat(iceRepairs) || 0) / 12;
-    const icePaymentMonthly = parseFloat(iceCarPayment) || 0;
+    const gasMonthly = parseFloat(String(gasCost)) || 0;
+    const tollsMonthly = parseFloat(String(tolls)) || 0;
+    const insuranceMonthly = parseFloat(String(iceInsurance)) || 0;
+    const iceRegMonthly = (parseFloat(String(iceRegistration)) || 0) / 12;
+    const iceRepairsMonthly = (parseFloat(String(iceRepairs)) || 0) / 12;
+    const icePaymentMonthly = parseFloat(String(iceCarPayment)) || 0;
     setTotalIceCarCost(gasMonthly + tollsMonthly + insuranceMonthly + iceRegMonthly + iceRepairsMonthly + icePaymentMonthly);
 
-    const miles = parseFloat(milesDriven) || 0;
-    const energyMonthly = miles * efficiency * (parseFloat(energyCost) || 0);
+    const miles = parseFloat(String(milesDriven)) || 0;
+    const energyMonthly = miles * efficiency * (parseFloat(String(energyCost)) || 0);
     const evTolls = tollsMonthly / 2;
-    const evIns = parseFloat(evInsurance) || 0;
-    const evRegMonthly = (parseFloat(evRegistration) || 0) / 12;
-    const tradeInMonthly = (parseFloat(tradeInValue) || 0) / termMonths;
-    const evDueMonthly = (parseFloat(evDown) || 0) / termMonths;
-    setTotalEVCost((parseFloat(evPayment) || 0) + energyMonthly + evTolls + evIns + evRegMonthly + evDueMonthly - tradeInMonthly);
+    const evIns = parseFloat(String(evInsurance)) || 0;
+    const evRegMonthly = (parseFloat(String(evRegistration)) || 0) / 12;
+    const tradeInMonthly = (parseFloat(String(tradeInValue)) || 0) / termMonths;
+    const evDueMonthly = (parseFloat(String(evDown)) || 0) / termMonths;
+    setTotalEVCost((parseFloat(String(evPayment)) || 0) + energyMonthly + evTolls + evIns + evRegMonthly + evDueMonthly - tradeInMonthly);
   }, [gasCost, milesDriven, evPayment, energyCost, tolls, iceInsurance, evInsurance, tradeInValue, iceRegistration, evRegistration, evDown, iceCarPayment, iceRepairs, efficiency, termMonths]);
 
-  const handleInputChange = (setter) => (e) => {
+  const handleInputChange = (setter: (value: number) => void) => (e: ChangeEvent<HTMLInputElement>) => {
     setter(Math.max(0, parseNumberInput(e.target.value)));
   };
 
   // Calculate EV energy cost using vehicle-specific efficiency and percent cheaper
-  const evEnergyCost = (parseFloat(milesDriven) * efficiency * parseFloat(energyCost)) || 0;
+  const evEnergyCost = (parseFloat(String(milesDriven)) * efficiency * parseFloat(String(energyCost))) || 0;
   const percentCheaper = gasCost > 0 ? Math.round(100 * (1 - (evEnergyCost / gasCost))) : 0;
 
 
@@ -139,7 +170,7 @@ export default function EVCalcView() {
       setIceRegistration(selected.registration);
       setIceInsurance(selected.insurance);
       setTradeInValue(selected.tradeIn);
-      setIceRepairs(selected.repairs);
+      setIceRepairs(selected.repairs ?? 0);
       trackEvent('ice-vehicle-selected', { vehicle: selectedIceCarTitle });
     }
   }, [selectedIceCarTitle]);
@@ -298,12 +329,12 @@ export default function EVCalcView() {
               </div>
               {showIceDetails && (
                 <div className="ml-4 mt-2 bg-background rounded p-2 border">
-                  <div className="flex">Payment: <span className="ml-auto font-mono">${parseFloat(iceCarPayment).toFixed(2)}</span></div>
-                  <div className="flex">Gas: <span className="ml-auto font-mono">${parseFloat(gasCost).toFixed(2)}</span></div>
-                  <div className="flex">Insurance: <span className="ml-auto font-mono">${parseFloat(iceInsurance).toFixed(2)}</span></div>
-                  <div className="flex">Registration: <span className="ml-auto font-mono">${(parseFloat(iceRegistration) / 12).toFixed(2)}</span></div>
-                  <div className="flex">Maintenance: <span className="ml-auto font-mono">${(parseFloat(iceRepairs) / 12).toFixed(2)}</span></div>
-                  <div className="flex">Tolls: <span className="ml-auto font-mono">${parseFloat(tolls).toFixed(2)}</span></div>
+                  <div className="flex">Payment: <span className="ml-auto font-mono">${parseFloat(String(iceCarPayment)).toFixed(2)}</span></div>
+                  <div className="flex">Gas: <span className="ml-auto font-mono">${parseFloat(String(gasCost)).toFixed(2)}</span></div>
+                  <div className="flex">Insurance: <span className="ml-auto font-mono">${parseFloat(String(iceInsurance)).toFixed(2)}</span></div>
+                  <div className="flex">Registration: <span className="ml-auto font-mono">${(parseFloat(String(iceRegistration)) / 12).toFixed(2)}</span></div>
+                  <div className="flex">Maintenance: <span className="ml-auto font-mono">${(parseFloat(String(iceRepairs)) / 12).toFixed(2)}</span></div>
+                  <div className="flex">Tolls: <span className="ml-auto font-mono">${parseFloat(String(tolls)).toFixed(2)}</span></div>
                 </div>
               )}
             </div>
@@ -443,13 +474,13 @@ export default function EVCalcView() {
               </div>
               {showEVDetails && (
                 <div className="ml-4 mt-2 bg-background rounded p-2 border ">
-                  <div className="flex">Payment: <span className="ml-auto font-mono">${parseFloat(evPayment).toFixed(2)}</span></div>
-                  <div className="flex">Energy: <span className="ml-auto font-mono">${(parseFloat(milesDriven) * efficiency * parseFloat(energyCost)).toFixed(2)}</span></div>
-                  <div className="flex">Insurance: <span className="ml-auto font-mono">${parseFloat(evInsurance).toFixed(2)}</span></div>
-                  <div className="flex">Registration: <span className="ml-auto font-mono">${(parseFloat(evRegistration) / 12).toFixed(2)}</span></div>
-                  <div className="flex">Tolls: <span className="ml-auto font-mono">${(parseFloat(tolls) / 2).toFixed(2)}</span></div>
-                  <div className="flex">Down: <span className="ml-auto font-mono">${(parseFloat(evDown) / termMonths).toFixed(2)}</span></div>
-                  <div className="flex">Trade-In Credit: <span className="ml-auto font-mono">-${((parseFloat(tradeInValue) || 0) / termMonths).toFixed(2)}</span></div>
+                  <div className="flex">Payment: <span className="ml-auto font-mono">${parseFloat(String(evPayment)).toFixed(2)}</span></div>
+                  <div className="flex">Energy: <span className="ml-auto font-mono">${(parseFloat(String(milesDriven)) * efficiency * parseFloat(String(energyCost))).toFixed(2)}</span></div>
+                  <div className="flex">Insurance: <span className="ml-auto font-mono">${parseFloat(String(evInsurance)).toFixed(2)}</span></div>
+                  <div className="flex">Registration: <span className="ml-auto font-mono">${(parseFloat(String(evRegistration)) / 12).toFixed(2)}</span></div>
+                  <div className="flex">Tolls: <span className="ml-auto font-mono">${(parseFloat(String(tolls)) / 2).toFixed(2)}</span></div>
+                  <div className="flex">Down: <span className="ml-auto font-mono">${(parseFloat(String(evDown)) / termMonths).toFixed(2)}</span></div>
+                  <div className="flex">Trade-In Credit: <span className="ml-auto font-mono">-${((parseFloat(String(tradeInValue)) || 0) / termMonths).toFixed(2)}</span></div>
                 </div>
               )}
             </div>
@@ -478,7 +509,7 @@ export default function EVCalcView() {
         {/* Payoff calculation in years - allows negative upfront (immediate benefit) */}
         {(() => {
           const monthlyDelta = totalIceCarCost - totalEVCost;
-          const upfrontDelta = parseFloat(evDown) - parseFloat(tradeInValue);
+          const upfrontDelta = parseFloat(String(evDown)) - parseFloat(String(tradeInValue));
           const payoffMonths = calculatePayoffMonths(upfrontDelta, monthlyDelta);
           const payoffYears = payoffMonths / 12;
 
