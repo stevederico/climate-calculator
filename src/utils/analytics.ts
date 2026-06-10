@@ -3,19 +3,36 @@
  * Safely handles umami not being loaded and sanitizes data
  */
 
-/** @returns {boolean} True if running on localhost — skip all tracking */
-const isLocal = () => ['localhost', '127.0.0.1'].includes(window.location.hostname);
+/** Minimal subset of the Umami tracker API loaded via script tag. */
+interface Umami {
+  track: (eventName?: string, data?: Record<string, unknown>) => void;
+  identify: (idOrData: string | Record<string, unknown>, data?: Record<string, unknown>) => void;
+}
+
+declare global {
+  interface Window {
+    umami?: Umami;
+  }
+}
+
+/** Sanitized event payload — only primitive values survive sanitization. */
+type SanitizedData = Record<string, string | number | boolean>;
+
+/** True if running on localhost — skip all tracking */
+const isLocal = (): boolean => ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
 /**
  * Sanitize event data for Umami
  * Ensures data is always a valid object with proper types
+ * @param data - Arbitrary event data to sanitize
+ * @returns Object with only primitive (string/number/boolean) values
  */
-const sanitizeEventData = (data) => {
+const sanitizeEventData = (data: unknown): SanitizedData => {
   if (!data || typeof data !== 'object' || Array.isArray(data)) {
     return {};
   }
 
-  const sanitized = {};
+  const sanitized: SanitizedData = {};
 
   for (const [key, value] of Object.entries(data)) {
     if (value === undefined || value === null || typeof value === 'function') {
@@ -42,10 +59,10 @@ const sanitizeEventData = (data) => {
 
 /**
  * Track an event with optional data
- * @param {string} eventName - Event name (kebab-case recommended)
- * @param {object} data - Optional event data object
+ * @param eventName - Event name (kebab-case recommended)
+ * @param data - Optional event data object
  */
-export const trackEvent = (eventName, data = {}) => {
+export const trackEvent = (eventName: string, data: Record<string, unknown> = {}): void => {
   if (isLocal()) return;
   if (typeof window !== 'undefined' && window.umami) {
     try {
@@ -59,10 +76,10 @@ export const trackEvent = (eventName, data = {}) => {
 
 /**
  * Identify a user with optional metadata
- * @param {string} userId - User ID
- * @param {object} data - Optional user metadata
+ * @param userId - User ID
+ * @param data - Optional user metadata
  */
-export const identifyUser = (userId, data = {}) => {
+export const identifyUser = (userId: string, data: Record<string, unknown> = {}): void => {
   if (isLocal()) return;
   if (typeof window !== 'undefined' && window.umami) {
     try {
@@ -80,7 +97,7 @@ export const identifyUser = (userId, data = {}) => {
 /**
  * Track a page view
  */
-export const trackPageView = () => {
+export const trackPageView = (): void => {
   if (isLocal()) return;
   if (typeof window !== 'undefined' && window.umami) {
     try {

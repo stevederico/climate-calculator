@@ -7,16 +7,16 @@
  * Calculates the principal loan amount from monthly payment using amortization formula
  * Formula: P = M × [(1 - (1 + r)^-n) / r]
  *
- * @param {number} monthlyPayment - Monthly payment amount
- * @param {number} annualRate - Annual interest rate as decimal (e.g., 0.05 for 5%)
- * @param {number} termMonths - Loan term in months
- * @returns {number} Principal loan amount
+ * @param monthlyPayment - Monthly payment amount
+ * @param annualRate - Annual interest rate as decimal (e.g., 0.05 for 5%)
+ * @param termMonths - Loan term in months
+ * @returns Principal loan amount
  *
  * @example
  * // $500/mo payment, 5% APR, 36 months
  * calculatePrincipalFromPayment(500, 0.05, 36) => 16,889.50
  */
-export function calculatePrincipalFromPayment(monthlyPayment, annualRate, termMonths) {
+export function calculatePrincipalFromPayment(monthlyPayment: number, annualRate: number, termMonths: number): number {
   if (termMonths <= 0) return 0;
   if (monthlyPayment <= 0) return 0;
 
@@ -35,9 +35,9 @@ export function calculatePrincipalFromPayment(monthlyPayment, annualRate, termMo
 /**
  * Calculates months until payoff given upfront cost and monthly savings
  *
- * @param {number} upfrontCost - Initial cost difference (can be negative for immediate benefit)
- * @param {number} monthlySavings - Monthly savings amount
- * @returns {number} Months until payoff, or Infinity if no payoff, or 0 if immediate benefit
+ * @param upfrontCost - Initial cost difference (can be negative for immediate benefit)
+ * @param monthlySavings - Monthly savings amount
+ * @returns Months until payoff, or Infinity if no payoff, or 0 if immediate benefit
  *
  * @example
  * // $5000 upfront cost, $200/mo savings
@@ -51,7 +51,7 @@ export function calculatePrincipalFromPayment(monthlyPayment, annualRate, termMo
  * // $5000 upfront, losing $50/mo
  * calculatePayoffMonths(5000, -50) => Infinity
  */
-export function calculatePayoffMonths(upfrontCost, monthlySavings) {
+export function calculatePayoffMonths(upfrontCost: number, monthlySavings: number): number {
   // If saving money monthly
   if (monthlySavings > 0) {
     // If upfront cost is negative (immediate benefit), payoff is immediate
@@ -67,32 +67,32 @@ export function calculatePayoffMonths(upfrontCost, monthlySavings) {
 /**
  * Calculates monthly energy cost for electric vehicle
  *
- * @param {number} monthlyMiles - Miles driven per month
- * @param {number} efficiency - Vehicle efficiency in kWh per mile
- * @param {number} energyCostPerKwh - Cost per kWh of electricity
- * @returns {number} Monthly energy cost
+ * @param monthlyMiles - Miles driven per month
+ * @param efficiency - Vehicle efficiency in kWh per mile
+ * @param energyCostPerKwh - Cost per kWh of electricity
+ * @returns Monthly energy cost
  *
  * @example
  * // 1000 miles/mo, 0.26 kWh/mi efficiency, $0.45/kWh
  * calculateEVEnergyCost(1000, 0.26, 0.45) => 117
  */
-export function calculateEVEnergyCost(monthlyMiles, efficiency, energyCostPerKwh) {
+export function calculateEVEnergyCost(monthlyMiles: number, efficiency: number, energyCostPerKwh: number): number {
   return monthlyMiles * efficiency * energyCostPerKwh;
 }
 
 /**
  * Calculates monthly fuel cost for gasoline vehicle
  *
- * @param {number} monthlyMiles - Miles driven per month
- * @param {number} mpg - Miles per gallon
- * @param {number} fuelCostPerGallon - Cost per gallon of fuel
- * @returns {number} Monthly fuel cost
+ * @param monthlyMiles - Miles driven per month
+ * @param mpg - Miles per gallon
+ * @param fuelCostPerGallon - Cost per gallon of fuel
+ * @returns Monthly fuel cost
  *
  * @example
  * // 1000 miles/mo, 25 mpg, $3.50/gallon
  * calculateGasFuelCost(1000, 25, 3.50) => 140
  */
-export function calculateGasFuelCost(monthlyMiles, mpg, fuelCostPerGallon) {
+export function calculateGasFuelCost(monthlyMiles: number, mpg: number, fuelCostPerGallon: number): number {
   if (mpg <= 0) return 0;
   return (monthlyMiles / mpg) * fuelCostPerGallon;
 }
