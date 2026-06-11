@@ -3,13 +3,20 @@
  * @module utils/validation
  */
 
-import { clamp, parseNumberInput } from './formatting.js';
+import { clamp, parseNumberInput } from './formatting';
+
+/** Min/max/default bounds for a single validated field. */
+interface ValidationRule {
+  min: number;
+  max: number;
+  default: number;
+}
 
 /**
  * Validation rules for common calculator inputs
  * Each rule defines min, max, and default values
  */
-export const VALIDATION_RULES = {
+export const VALIDATION_RULES: Record<string, ValidationRule> = {
   // EV Calculator
   miles: { min: 0, max: 10000, default: 1000 },
   mpg: { min: 1, max: 100, default: 25 },
@@ -32,15 +39,15 @@ export const VALIDATION_RULES = {
 
 /**
  * Validates an input value against defined rules
- * @param {string|number} value - The value to validate
- * @param {string} fieldName - Name of the field (must exist in VALIDATION_RULES)
- * @returns {number} Validated and clamped number
+ * @param value - The value to validate
+ * @param fieldName - Name of the field (must exist in VALIDATION_RULES)
+ * @returns Validated and clamped number
  *
  * @example
  * validateInput("5000", "miles") => 5000
  * validateInput("15000", "miles") => 10000 // clamped to max
  */
-export function validateInput(value, fieldName) {
+export function validateInput(value: string | number, fieldName: string): number {
   const rules = VALIDATION_RULES[fieldName];
   if (!rules) {
     console.warn(`No validation rules for field: ${fieldName}`);
@@ -53,16 +60,19 @@ export function validateInput(value, fieldName) {
 
 /**
  * Creates a validated input change handler for React
- * @param {Function} setter - State setter function
- * @param {string} fieldName - Name of the field (must exist in VALIDATION_RULES)
- * @returns {Function} Change handler function
+ * @param setter - State setter function
+ * @param fieldName - Name of the field (must exist in VALIDATION_RULES)
+ * @returns Change handler function
  *
  * @example
  * const handleMilesChange = createValidatedHandler(setMiles, 'miles');
  * <input onChange={(e) => handleMilesChange(e.target.value)} />
  */
-export function createValidatedHandler(setter, fieldName) {
-  return (value) => {
+export function createValidatedHandler(
+  setter: (value: number) => void,
+  fieldName: string
+): (value: string | number) => void {
+  return (value: string | number) => {
     const validated = validateInput(value, fieldName);
     setter(validated);
   };
