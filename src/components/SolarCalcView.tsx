@@ -1,3 +1,4 @@
+import type { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
 import { trackEvent } from '../utils/analytics';
 import { formatNumber, parseNumberInput } from '../utils/formatting';
@@ -5,7 +6,7 @@ import { formatNumber, parseNumberInput } from '../utils/formatting';
 /**
  * Solar Calculator View - Compare monthly costs between grid electricity and solar
  * Calculates payoff period based on loan terms, down payment, and monthly savings
- * @returns {JSX.Element} Solar calculator interface
+ * @returns Solar calculator interface
  */
 export default function SolarCalcView() {
 
@@ -19,7 +20,7 @@ export default function SolarCalcView() {
   const [apr, setApr] = useState(3.99);
 
   // Handlers
-  const handleInputChange = setter => e => setter(Math.max(0, parseNumberInput(e.target.value)));
+  const handleInputChange = (setter: (value: number) => void) => (e: ChangeEvent<HTMLInputElement>) => setter(Math.max(0, parseNumberInput(e.target.value)));
 
 
   /**
@@ -33,15 +34,15 @@ export default function SolarCalcView() {
         ? (loanPayment * (1 - Math.pow(1 + monthlyRate, -termMonths))) / monthlyRate
         : loanPayment * termMonths)
     : 0;
-  const solarAmount = parseFloat(solarDown) + principal;
+  const solarAmount = parseFloat(String(solarDown)) + principal;
 
   // Calculate monthly costs and savings
-  const gridTotal = parseFloat(gridBill) || 0;
-  const solarTotal = (parseFloat(solarMonthly) || 0) + parseFloat(loanPayment);
+  const gridTotal = parseFloat(String(gridBill)) || 0;
+  const solarTotal = (parseFloat(String(solarMonthly)) || 0) + parseFloat(String(loanPayment));
   const monthlySavings = gridTotal - solarTotal;
 
   // Payoff calculation (total cost = loan payments + down payment)
-  const totalLoanCost = parseFloat(loanPayment) * termMonths + parseFloat(solarDown);
+  const totalLoanCost = parseFloat(String(loanPayment)) * termMonths + parseFloat(String(solarDown));
   const payoffMonths = monthlySavings > 0 ? Math.ceil(totalLoanCost / monthlySavings) : Infinity;
 
   return (
