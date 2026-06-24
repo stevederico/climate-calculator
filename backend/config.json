@@ -1,8 +1,8 @@
 {
   "staticDir": "../dist",
   "database": {
-    "db": "BXClimateWIP",
-    "dbType": "mongodb",
-    "connectionString": "${MONGODB_URL}"
+    "db": "BXClimate",
+    "dbType": "sqlite",
+    "connectionString": "./databases/BXClimate.db"
   }
 }
