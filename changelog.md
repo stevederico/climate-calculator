@@ -1,3 +1,11 @@
+0.10.0
+
+  Upgrade skateboard to 4.4.0 (skateboard-ui 4.11.0)
+  Extract backend lib helpers
+  Add vite.plugins.ts
+  Restore AGENTS.md source CLAUDE.md symlink
+  Keep node:test drop vitest
+
 0.9.0
 
   Upgrade skateboard to 3.4.0 (skateboard-ui 3.7.0)
