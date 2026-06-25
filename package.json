@@ -10,14 +10,14 @@
   "scripts": {
     "start": "npm run front & npm run server",
     "front": "vite --force --mode development",
-    "server": "npm run --workspace=backend dev",
+    "server": "cd backend && npm run dev",
     "build": "npm run typecheck && vite build --mode production",
     "prod": "npm run typecheck && vite build --mode production",
     "install-all": "npm install && npm install --workspace=backend",
     "verify:ui": "node scripts/verify-ui-version.mjs",
     "postinstall": "git config core.hooksPath .githooks || true",
-    "test": "npm run typecheck && npm run --workspace=backend test",
-    "test:watch": "npm run --workspace=backend test:watch",
+    "test": "npm run typecheck && cd backend && npm run test",
+    "test:watch": "cd backend && npm run test:watch",
     "typecheck": "tsc -p tsconfig.json && tsc -p backend/tsconfig.json"
   },
   "dependencies": {
