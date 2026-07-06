@@ -1,3 +1,9 @@
+0.11.0
+
+  Add libsql adapter
+  Migrate to sqlite-shared
+  DB_TYPE env override
+
 0.10.0
 
   Upgrade skateboard to 4.4.0 (skateboard-ui 4.11.0)
