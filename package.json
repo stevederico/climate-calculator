@@ -1,7 +1,7 @@
 {
   "name": "BXClimate-WIP",
   "private": false,
-  "version": "0.10.0",
+  "version": "0.11.0",
   "skateboardVersion": "4.9.1",
   "type": "module",
   "workspaces": [
