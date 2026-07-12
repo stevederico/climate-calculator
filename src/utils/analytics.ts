@@ -12,6 +12,7 @@ interface Umami {
 declare global {
   interface Window {
     umami?: Umami;
+    dottie?: Umami;
   }
 }
 
@@ -62,15 +63,18 @@ const sanitizeEventData = (data: unknown): SanitizedData => {
  * @param eventName - Event name (kebab-case recommended)
  * @param data - Optional event data object
  */
-export const trackEvent = (eventName: string, data: Record<string, unknown> = {}): void => {
-  if (isLocal()) return;
-  if (typeof window !== 'undefined' && window.umami) {
-    try {
-      const sanitizedData = sanitizeEventData(data);
-      window.umami.track(eventName, sanitizedData);
-    } catch (error) {
-      console.warn('Analytics tracking failed:', error);
-    }
+export const trackEvent = (eventName: string, data: EventData = {}): void => {
+  if (isLocal() || typeof window === 'undefined') return;
+  const sanitizedData = sanitizeEventData(data);
+  try {
+    window.umami?.track?.(eventName, sanitizedData);
+  } catch (error) {
+    console.warn('Umami tracking failed:', error);
+  }
+  try {
+    window.dottie?.track?.(eventName, sanitizedData);
+  } catch (error) {
+    console.warn('Dottie tracking failed:', error);
   }
 };
 
@@ -79,18 +83,19 @@ export const trackEvent = (eventName: string, data: Record<string, unknown> = {}
  * @param userId - User ID
  * @param data - Optional user metadata
  */
-export const identifyUser = (userId: string, data: Record<string, unknown> = {}): void => {
-  if (isLocal()) return;
-  if (typeof window !== 'undefined' && window.umami) {
-    try {
-      if (userId) {
-        window.umami.identify(userId, data);
-      } else {
-        window.umami.identify(data);
-      }
-    } catch (error) {
-      console.warn('User identification failed:', error);
-    }
+export const identifyUser = (userId: string, data: EventData = {}): void => {
+  if (isLocal() || typeof window === 'undefined') return;
+  try {
+    if (userId) window.umami?.identify?.(userId, data);
+    else window.umami?.identify?.(data);
+  } catch (error) {
+    console.warn('Umami identification failed:', error);
+  }
+  try {
+    if (userId) window.dottie?.identify?.(userId, data);
+    else window.dottie?.identify?.(data);
+  } catch (error) {
+    console.warn('Dottie identification failed:', error);
   }
 };
 
@@ -98,12 +103,15 @@ export const identifyUser = (userId: string, data: Record<string, unknown> = {})
  * Track a page view
  */
 export const trackPageView = (): void => {
-  if (isLocal()) return;
-  if (typeof window !== 'undefined' && window.umami) {
-    try {
-      window.umami.track();
-    } catch (error) {
-      console.warn('Page view tracking failed:', error);
-    }
+  if (isLocal() || typeof window === 'undefined') return;
+  try {
+    window.umami?.track?.();
+  } catch (error) {
+    console.warn('Umami page view tracking failed:', error);
+  }
+  try {
+    window.dottie?.track?.();
+  } catch (error) {
+    console.warn('Dottie page view tracking failed:', error);
   }
 };
