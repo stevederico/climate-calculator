@@ -3,6 +3,8 @@
  * Safely handles umami not being loaded and sanitizes data
  */
 
+type EventData = Record<string, unknown>;
+
 /** Minimal subset of the Umami tracker API loaded via script tag. */
 interface Umami {
   track: (eventName?: string, data?: Record<string, unknown>) => void;
