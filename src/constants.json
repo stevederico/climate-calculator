@@ -11,7 +11,7 @@
     "tagline": "Green Energy Tracker",
     "cta": "Get Started",
     "ctaHeading": "Ready to Get Started?",
-    "noLogin": true,
+    "noLogin": false,
     "authOverlay": true,
     "sidebarCollapsed": false,
     "features": {
@@ -48,7 +48,21 @@
             "icon": "sun"
         }
     ],
-    "stripeProducts": [],
+    "stripeProducts": [
+        {
+            "price": "$5.00",
+            "title": "Monthly Plan",
+            "interval": "monthly",
+            "lookup_key": "climate_monthly",
+            "features": [
+                "EV Cost Calculator",
+                "Solar Savings Tracker",
+                "Unlimited Comparisons",
+                "Priority Support",
+                "Cancel Anytime"
+            ]
+        }
+    ],
     "pricing": {
         "title": "Simple, Transparent Pricing",
         "extras": [
