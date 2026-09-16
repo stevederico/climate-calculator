@@ -1,3 +1,13 @@
+0.12.0
+
+  Upgrade skateboard 4.11.0 to 5.6.0
+  Replace Hono JS backend with zero-crate Rust backend
+  Pin skateboard-ui 5.1.0
+  Rewrite DynamicIcon to lucide-react
+  Navigate with useSafeNavigate
+  Drop dead npm scripts left by the JS backend
+  Move theme bootstrap to public/theme-init.js
+
 0.11.0
 
   Add libsql adapter

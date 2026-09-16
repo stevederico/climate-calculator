@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router';
+import { Car, Circle, Sun, type LucideIcon } from 'lucide-react';
 import { getState } from '@stevederico/skateboard-ui/Context';
+import { useSafeNavigate } from '@stevederico/skateboard-ui/Utilities';
 import {
   Command,
   CommandDialog,
@@ -9,9 +10,19 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandItem,
-  CommandShortcut,
 } from '@stevederico/skateboard-ui/shadcn/ui/command';
-import DynamicIcon from '@stevederico/skateboard-ui/DynamicIcon';
+
+/**
+ * `constants.json` page icon strings mapped to their Lucide component.
+ *
+ * skateboard-ui 5.0 removed the public dynamic icon resolver, so the icons a
+ * page can use are declared here. An unlisted name falls back to `Circle`
+ * rather than rendering nothing, keeping the menu rows aligned.
+ */
+const PAGE_ICONS: Record<string, LucideIcon> = {
+  car: Car,
+  sun: Sun,
+};
 
 /** Page entry from constants.json's pages array. */
 interface PageEntry {
@@ -39,7 +50,7 @@ interface PageEntry {
  */
 export default function CommandMenu() {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useSafeNavigate();
   const { state } = getState();
   const pages: PageEntry[] = state.constants?.pages || [];
 
@@ -83,17 +94,20 @@ export default function CommandMenu() {
         <CommandList className="p-2">
           <CommandEmpty>No pages found.</CommandEmpty>
           <CommandGroup heading="Pages">
-            {pages.map((page) => (
-              <CommandItem
-                key={page.url}
-                value={page.title}
-                onSelect={() => handleSelect(page.url)}
-                className="gap-3 px-3 py-2.5"
-              >
-                <DynamicIcon name={page.icon} size={16} className="shrink-0 text-muted-foreground" />
-                <span>{page.title}</span>
-              </CommandItem>
-            ))}
+            {pages.map((page) => {
+              const Icon = PAGE_ICONS[page.icon] ?? Circle;
+              return (
+                <CommandItem
+                  key={page.url}
+                  value={page.title}
+                  onSelect={() => handleSelect(page.url)}
+                  className="gap-3 px-3 py-2.5"
+                >
+                  <Icon size={16} aria-hidden="true" className="shrink-0 text-muted-foreground" />
+                  <span>{page.title}</span>
+                </CommandItem>
+              );
+            })}
           </CommandGroup>
         </CommandList>
       </Command>

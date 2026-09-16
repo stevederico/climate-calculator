@@ -1,9 +1,56 @@
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
-import DynamicIcon from '@stevederico/skateboard-ui/DynamicIcon';
+import {
+  BadgeCheck,
+  BadgeDollarSign,
+  Car,
+  Cloud,
+  Droplets,
+  Home,
+  MonitorPlay,
+  Navigation,
+  Plug,
+  RefreshCw,
+  Settings2,
+  ShieldCheck,
+  TrendingUp,
+  Users,
+  Volume2,
+  type LucideIcon,
+} from 'lucide-react';
 import { trackEvent } from '../utils/analytics';
 import { formatNumber, parseNumberInput } from '../utils/formatting';
 import { calculatePayoffMonths } from '../utils/calculations';
+
+/** One EV benefit tile and its Lucide icon. */
+interface EvBenefit {
+  icon: LucideIcon;
+  text: string;
+  link?: { href: string; label: string };
+  extra?: string;
+}
+
+const EV_BENEFITS: EvBenefit[] = [
+  { icon: Home, text: 'Always leave home with a full tank (charge overnight)' },
+  { icon: Car, text: 'Free HOV Lane access' },
+  { icon: BadgeCheck, text: 'No more Smog Checks' },
+  { icon: RefreshCw, text: 'Regenerative Braking: better in city driving' },
+  { icon: RefreshCw, text: 'Free software updates' },
+  { icon: Users, text: 'Your phone is your key' },
+  { icon: BadgeCheck, text: 'Free Supercharging for 6 months' },
+  { icon: Car, text: 'Self Driving: 3 months free' },
+  { icon: Settings2, text: 'Tesla: 20 moving parts vs 20,000 in ICE = less repairs' },
+  { icon: Settings2, text: "ICE cars get less efficient over time, EVs don't" },
+  { icon: Home, text: 'Never go to a dirty gas station again' },
+  { icon: ShieldCheck, text: 'Tesla battery: 8 year warranty, 100k+ miles' },
+  { icon: Cloud, text: 'Free over-the-air updates' },
+  { icon: Plug, text: 'Free charging at work? ', link: { href: 'https://www.plugshare.com/', label: 'Link to check' }, extra: ', does your work hand out free gas?' },
+  { icon: TrendingUp, text: 'EVs efficiency gets better/same, ICE gets worse' },
+  { icon: Volume2, text: 'Much quieter, no engine noise' },
+  { icon: MonitorPlay, text: 'Watch Netflix, YouTube, and play video games while you charge' },
+  { icon: BadgeDollarSign, text: '$7500 off instantly from Federal Government' },
+  { icon: Droplets, text: 'No oil changes needed: just add washer fluid and change brakes every 50k miles, that\'s it!' },
+];
 
 /** A selectable electric vehicle and its cost/efficiency profile. */
 interface EVCar {
@@ -560,30 +607,11 @@ export default function EVCalcView() {
 
         <div id="detailsArea" data-section-id="ev-benefits" className="mt-8">
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              { icon: 'home', text: 'Always leave home with a full tank (charge overnight)' },
-              { icon: 'car', text: 'Free HOV Lane access' },
-              { icon: 'badge-check', text: 'No more Smog Checks' },
-              { icon: 'refresh-cw', text: 'Regenerative Braking: better in city driving' },
-              { icon: 'refresh-cw', text: 'Free software updates' },
-              { icon: 'users', text: 'Your phone is your key' },
-              { icon: 'badge-check', text: 'Free Supercharging for 6 months' },
-              { icon: 'car', text: 'Self Driving: 3 months free' },
-              { icon: 'settings-2', text: 'Tesla: 20 moving parts vs 20,000 in ICE = less repairs' },
-              { icon: 'settings-2', text: "ICE cars get less efficient over time, EVs don't" },
-              { icon: 'home', text: 'Never go to a dirty gas station again' },
-              { icon: 'shield-check', text: 'Tesla battery: 8 year warranty, 100k+ miles' },
-              { icon: 'cloud', text: 'Free over-the-air updates' },
-              { icon: 'plug', text: 'Free charging at work? ', link: { href: 'https://www.plugshare.com/', label: 'Link to check' }, extra: ', does your work hand out free gas?' },
-              { icon: 'trending-up', text: 'EVs efficiency gets better/same, ICE gets worse' },
-              { icon: 'volume-2', text: 'Much quieter, no engine noise' },
-              { icon: 'monitor-play', text: 'Watch Netflix, YouTube, and play video games while you charge' },
-              { icon: 'badge-dollar-sign', text: '$7500 off instantly from Federal Government' },
-              { icon: 'droplets', text: 'No oil changes needed – just add washer fluid and change brakes every 50k miles, that\'s it!' },
-            ].map((b, i) => {
+            {EV_BENEFITS.map((b, i) => {
+              const Icon = b.icon;
               return (
                 <li key={i} className="flex flex-col items-center justify-center bg-background rounded-lg p-6 border border-accent">
-                  <DynamicIcon name={b.icon} className="w-14 h-14 md:w-20 md:h-20 mb-3" />
+                  <Icon aria-hidden="true" className="w-14 h-14 md:w-20 md:h-20 mb-3" />
                   <span className="text-center text-lg font-medium">
                     {b.text}
                     {b.link && <a href={b.link.href} target="_blank" rel="noopener noreferrer" className="underline mx-1">{b.link.label}</a>}
@@ -599,11 +627,11 @@ export default function EVCalcView() {
           <h2 className="text-2xl font-bold mb-4 text-center">Self-Driving</h2>
           <div data-section-id="self-driving" className="bg-background border border-accent rounded-lg p-6 max-w-2xl mx-auto">
             <div className="flex items-center gap-4 mb-4">
-              <DynamicIcon name="car" className="w-8 h-8" />
+              <Car aria-hidden="true" className="w-8 h-8" />
               <span className="text-lg">AutoPilot - like cruise control but better</span>
             </div>
             <div className="flex items-center gap-4">
-              <DynamicIcon name="navigation" className="w-8 h-8" />
+              <Navigation aria-hidden="true" className="w-8 h-8" />
               <span className="text-lg">FSD - full self driving, you type in where you want to go and it does everything</span>
             </div>
           </div>
