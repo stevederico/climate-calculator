@@ -1,221 +1,75 @@
-# Deployment Guide
+# Deployment
 
-Deploy your Skateboard app to production.
+Production is a Docker image on Railway. `railway.json` sets the builder to `Dockerfile`. Do not deploy this app to Vercel, Render, or Netlify. Those guides were leftover from the old Hono template.
 
-## Prerequisites
+## Image
 
-- GitHub repository with your Skateboard app
-- Stripe account (for payments)
-- Hosting account (Vercel, Render, or Netlify)
+The Dockerfile has three stages:
 
-## Environment Variables
+1. `node:24-bookworm-slim` runs `npm run build` and writes `dist/`.
+2. `rust:bookworm` runs `cargo build --release --locked`.
+3. `debian:bookworm-slim` runs `skateboard-backend` as user `skateboard`, with `libsqlite3` and `libcurl`.
 
-All platforms require these environment variables:
+The image listens on port 8000. Health check: `GET /api/health`.
 
-```bash
-# Required
-JWT_SECRET=your_super_secure_jwt_secret_here
-STRIPE_KEY=sk_test_your_stripe_secret_key
-STRIPE_ENDPOINT_SECRET=whsec_your_webhook_secret
-CORS_ORIGINS=https://yourapp.com
-FRONTEND_URL=https://yourapp.com
-
-# Optional
-POSTGRES_URL=postgresql://...  # If using PostgreSQL
-MONGODB_URL=mongodb://...      # If using MongoDB
-FREE_USAGE_LIMIT=20            # Monthly limit for free users
-```
-
-## Stripe Webhook Setup
-
-For all platforms, configure your Stripe webhook:
-
-1. Go to [dashboard.stripe.com](https://dashboard.stripe.com) → Developers → Webhooks
-2. Click "Add endpoint"
-3. URL: `https://your-backend-url/api/payment`
-4. Select events:
-   - `customer.subscription.created`
-   - `customer.subscription.deleted`
-   - `customer.subscription.updated`
-5. Copy the signing secret to `STRIPE_ENDPOINT_SECRET`
-
----
-
-## Vercel (Recommended)
-
-Single deployment for both frontend and backend.
-
-### 1. Create vercel.json
-
-```json
-{
-  "version": 2,
-  "builds": [
-    { "src": "backend/server.js", "use": "@vercel/node" },
-    { "src": "package.json", "use": "@vercel/static-build" }
-  ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "backend/server.js" },
-    { "src": "/(.*)", "dest": "$1" }
-  ],
-  "buildCommand": "npm run build"
-}
-```
-
-### 2. Update Backend for Vercel
-
-Add to end of `backend/server.js`:
-
-```javascript
-export default app;
-```
-
-### 3. Deploy
-
-1. Go to [vercel.com](https://vercel.com) → New Project
-2. Import your GitHub repository
-3. Configure:
-   - Framework Preset: Other
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-4. Add environment variables
-5. Deploy
-
-### 4. Update Configuration
-
-Update `src/constants.json`:
-```json
-{ "backendURL": "/api" }
-```
-
-Update `backend/config.json`:
-```json
-{
-  "client": "https://yourproject.vercel.app",
-  "database": { ... }
-}
-```
-
----
-
-## Render
-
-Separate services for frontend (Static Site) and backend (Web Service).
-
-### 1. Deploy Backend
-
-1. Go to [render.com](https://render.com) → New → Web Service
-2. Connect your GitHub repository
-3. Configure:
-   - Name: `skateboard-backend`
-   - Root Directory: `backend`
-   - Runtime: Node
-   - Build Command: `npm install`
-   - Start Command: `npm start`
-4. Add environment variables
-5. Deploy and copy the backend URL
-
-### 2. Deploy Frontend
-
-1. Go to Render → New → Static Site
-2. Connect the same repository
-3. Configure:
-   - Name: `skateboard-frontend`
-   - Build Command: `npm run build`
-   - Publish Directory: `dist`
-4. Deploy
-
-### 3. Update Configuration
-
-Update `src/constants.json`:
-```json
-{ "backendURL": "https://skateboard-backend.onrender.com" }
-```
-
-Update `backend/config.json`:
-```json
-{
-  "client": "https://skateboard-frontend.onrender.com",
-  "database": { ... }
-}
-```
-
----
-
-## Netlify + Railway
-
-Netlify for frontend, Railway for backend.
-
-### 1. Deploy Backend to Railway
-
-1. Go to [railway.app](https://railway.app) → New Project
-2. Deploy from GitHub repo
-3. Configure:
-   - Build Command: `npm install --workspace=backend`
-   - Start Command: `npm run --workspace=backend start`
-4. Add environment variables
-5. Deploy and copy the backend URL
-
-### 2. Deploy Frontend to Netlify
-
-1. Go to [netlify.com](https://netlify.com) → New site from Git
-2. Connect your GitHub repository
-3. Configure:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-4. Deploy
-
-### 3. Update Configuration
-
-Update `src/constants.json`:
-```json
-{ "backendURL": "https://yourapp.up.railway.app" }
-```
-
-Update `backend/config.json`:
-```json
-{
-  "client": "https://random-name.netlify.app",
-  "database": { ... }
-}
-```
-
----
-
-## Docker Deployment
-
-Use the included Dockerfile for container deployments.
+A `.env` file in the build context fails the frontend stage on purpose. Secrets belong in the host environment, not the image.
 
 ```bash
-docker build -t skateboard .
-docker run -p 8000:8000 --env-file .env skateboard
+docker build -t bxclimate .
+docker run --rm -p 8000:8000 --env-file backend/.env bxclimate
 ```
 
-See [ARCHITECTURE.md](ARCHITECTURE.md#production-configuration) for environment configuration.
+## Railway
 
----
+Project `bixby`, environment `production`, service `BXClimate`, domain [climate.bixbyapps.com](https://climate.bixbyapps.com).
 
-## Go Live Checklist
+```bash
+railway link -p bixby -e production -s BXClimate
+railway up
+```
 
-- [ ] Environment variables set on hosting platform
-- [ ] `constants.json` backendURL updated
-- [ ] `config.json` client URL updated
-- [ ] Stripe webhook configured with production URL
-- [ ] Live Stripe keys configured (`sk_live_...`)
-- [ ] Test sign up / sign in flow
-- [ ] Test payment flow
-- [ ] Monitor logs for errors
+## Environment
 
-## Troubleshooting
+Set these on the service. Names match `backend/src/state.rs` and `backend/src/config.rs`.
 
-**API routes not working?**
-- Check CORS_ORIGINS includes your frontend URL
-- Verify backendURL in constants.json
+| Variable | Required in production | Role |
+|----------|------------------------|------|
+| `NODE_ENV` | yes (`production`) | Refuses to boot if `JWT_SECRET` is missing, short, or still the example placeholder |
+| `JWT_SECRET` | yes, 32+ characters | HS256 signing key |
+| `STRIPE_KEY` | yes for checkout | Stripe secret key |
+| `STRIPE_ENDPOINT_SECRET` | yes for webhooks | `POST /api/payment` signature |
+| `FRONTEND_URL` | yes | Stripe success and cancel redirects |
+| `CORS_ORIGINS` | when the browser origin is not the same host | Comma-separated allow list |
+| `PORT` | no | Listen port. Default 8000 |
+| `FREE_USAGE_LIMIT` | no | Free-tier monthly cap. Default 20 |
+| `SKATEBOARD_BACKEND_DIR` | set by the image | Directory that holds `config.json`. Image sets `/app/backend` |
 
-**Stripe webhooks failing?**
-- Verify webhook URL ends with `/api/payment`
-- Check STRIPE_ENDPOINT_SECRET matches
+Stripe product lookup key in `src/constants.json` is `climate_monthly`.
 
-**Auth not persisting?**
-- Check FRONTEND_URL is set correctly
-- Verify cookies are being sent (credentials: include)
+Webhook endpoint: `https://climate.bixbyapps.com/api/payment`
+
+Events the backend handles:
+
+- `checkout.session.completed`
+- `customer.subscription.created`
+- `customer.subscription.updated`
+- `customer.subscription.deleted`
+- `invoice.paid`
+- `invoice.payment_failed`
+
+## Database
+
+SQLite only. `backend/config.json`:
+
+```json
+{
+  "staticDir": "../dist",
+  "database": {
+    "db": "BXClimate",
+    "dbType": "sqlite",
+    "connectionString": "./databases/BXClimate.db"
+  }
+}
+```
+
+`*.db` is gitignored. On Railway, persist `backend/databases/` or the process starts empty after each deploy.
