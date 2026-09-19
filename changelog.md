@@ -1,3 +1,12 @@
+0.13.0
+
+  Rewrite README
+  Rewrite architecture docs
+  Rewrite deploy docs
+  Rewrite schema docs
+  Rewrite API docs
+  Rewrite migration guide
+
 0.12.0
 
   Upgrade skateboard 4.11.0 to 5.6.0
