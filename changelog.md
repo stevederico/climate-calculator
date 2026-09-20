@@ -1,3 +1,9 @@
+0.14.0
+
+  Remove vite timestamp leak
+  Scrub changelog fleet crumbs
+  Ignore vite timestamp files
+
 0.13.0
 
   Rewrite README
@@ -86,51 +92,29 @@ set color in styles.css
   Add Dockerfile
   Remove blog content
   Update calculators
-"backendURL": "https://bob.bixbyapps.com",
-"devBackendURL": "http://localhost:3000",
-"prod": "vite build --mode production; cp -r ./dist/* ../bixby-proxy/public/vegas.bixbyapps.com"
-change package name and version
-git init
-git repo
-update config.json
-add router
-create new database
+
 0.0.1
-added tesla style
-added ev calculator
-added registration fees
-added ICE repairs
-added referral link
+
+  Add EV calculator
+  Add ICE cost fields
+  Add Tesla-style layout
+
 0.0.2
-BENEFITS
-Free HOV Lane
-No more smog checks!
-No oil changes needed – just add washer fluid and change brakes every 50k miles, that's it!
-EV regen in city, ICE is worse
-Tesla Less 20 moving parts, less repairs, warranty
-No keys required
-never go to a gas station again!
-Free over-the-air updates
-Free charging at work? Link to check, doesn yoru work hand out free gas?
-EVs efficency get's better/same, ICE gets worst
-Much quieter, no engine noise
-Watch netflix, youtube, and play video games while you charge
-$7500 off instantly from Federal Government
-3 months of Full Self-Driving (Supervised) or $400 Off Solar Panel Installation
-added solar calculator
-added FAQ Section
-added self driving section
+
+  Add solar calculator
+  Add FAQ section
+  Add self-driving section
 
 0.0.3
-added a markdown blog
-updated bixby-proxy to handle the /blog
-added blog index page
+
+  Add markdown blog
+  Add blog index page
+
 0.0.4
-removed login
+
+  Remove login
+
 0.2.0
-
-
-
 
 0.3.0
 
