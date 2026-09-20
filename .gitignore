@@ -45,3 +45,5 @@ deno.lock
 coverage
 bun.lock
 backend/target
+vite.config.js.timestamp-*.mjs
+vite.config.*.timestamp-*.mjs
