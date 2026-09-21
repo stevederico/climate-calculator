@@ -15,8 +15,8 @@ The image listens on port 8000. Health check: `GET /api/health`.
 A `.env` file in the build context fails the frontend stage on purpose. Secrets belong in the host environment, not the image.
 
 ```bash
-docker build -t bxclimate .
-docker run --rm -p 8000:8000 --env-file backend/.env bxclimate
+docker build -t climate-calculator .
+docker run --rm -p 8000:8000 --env-file backend/.env climate-calculator
 ```
 
 ## Railway

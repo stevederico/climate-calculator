@@ -1,8 +1,10 @@
-# BXClimate
+# climate-calculator
 
 EV vs gas and solar vs grid calculators. App name in the UI is Pine.
 
-**Version:** 0.14.0 | **Domain:** [climate.bixbyapps.com](https://climate.bixbyapps.com) | **Railway service:** `BXClimate`
+**Version:** 0.15.0 | **Domain:** [climate.bixbyapps.com](https://climate.bixbyapps.com) | **Railway service:** `BXClimate`
+
+The GitHub repo is `climate-calculator`. Production still uses Railway service `BXClimate` and SQLite file `BXClimate.db`. Renaming those would orphan the live database.
 
 ## Tech stack
 
