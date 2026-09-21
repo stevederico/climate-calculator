@@ -1,18 +1,19 @@
 # climate-calculator
 
-EV vs gas and solar vs grid calculators. App name in the UI is Pine.
+EV vs gas and solar vs grid calculators. The UI name is Pine.
 
-**Version:** 0.15.0 | **Domain:** [climate.bixbyapps.com](https://climate.bixbyapps.com) | **Railway service:** `BXClimate`
-
-The GitHub repo is `climate-calculator`. Production still uses Railway service `BXClimate` and SQLite file `BXClimate.db`. Renaming those would orphan the live database.
+**Version:** 0.16.0 | **Domain:** [climate.bixbyapps.com](https://climate.bixbyapps.com)
 
 ## Tech stack
 
-- React 19, Vite 8, Tailwind 4, `@stevederico/skateboard-ui` 5.1.0
-- Skateboard 5.6: zero-crate Rust backend, SQLite through system `libsqlite3`
-- Stripe lookup key `climate_monthly`
+From `package.json` and `backend/Cargo.toml`:
 
-Postgres, MongoDB, Hono, and Deno are not this app. The 0.11.0 libsql / sqlite-shared move lived in the old JavaScript backend. 0.12.0 replaced that backend with Rust and a local SQLite file.
+- React 19.2, Vite 8.2, Tailwind CSS 4.3, TypeScript 7, Node 24
+- `@stevederico/skateboard-ui` 5.1.0, skateboard 5.6.0
+- Zero-crate Rust backend (`rust-version` 1.95). SQLite through system `libsqlite3`. Stripe HTTP through system `libcurl`
+- Icons from `lucide-react`
+
+No Postgres, no MongoDB, no Hono, no Deno.
 
 ## Setup
 
@@ -22,7 +23,7 @@ npm run start                 # frontend  http://localhost:5173
 cd backend && cargo run       # backend   http://localhost:8000
 ```
 
-Auth and Stripe read `backend/.env` (gitignored). Variables are listed in [docs/DEPLOY.md](docs/DEPLOY.md). `JWT_SECRET` must be at least 32 characters when `NODE_ENV=production`.
+Auth and Stripe read `backend/.env` (gitignored). Variable names are in [docs/DEPLOY.md](docs/DEPLOY.md). `JWT_SECRET` must be at least 32 characters when `NODE_ENV=production`.
 
 ## Scripts
 
@@ -42,12 +43,7 @@ Authenticated app routes (`constants.json` has `"noLogin": false`):
 
 ## Deploy
 
-Railway builds `Dockerfile` (`railway.json`). See [docs/DEPLOY.md](docs/DEPLOY.md).
-
-```bash
-railway link -p bixby -e production -s BXClimate
-railway up
-```
+Production is the Docker image in `Dockerfile` (`railway.json`). See [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ## Docs
 
