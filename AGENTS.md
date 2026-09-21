@@ -55,7 +55,7 @@ When making ANY code changes, you MUST update:
 - the changelog for all changes (`skateboard-changelog.md` in this repo; `CHANGELOG.md` in apps — see commit protocol)
 
 **Version & dependency bumps MUST propagate to every doc that names them (no exceptions):**
-- Bumping a version in `package.json` (the app `version`, `skateboardVersion`, or any dependency) is NOT done until you have grepped the docs for the old value and updated every hit: `README.md` (the Technology/Version table, version floors), `docs/GUIDE.md`, `docs/UPGRADE.md`, and the AGENTS.md "Version" block.
+- Bumping a version in `package.json` (the app `version`, `skateboardVersion`, or any dependency) is NOT done until you have grepped the docs for the old value and updated every hit: `README.md`, `docs/`, and the AGENTS.md "Version" block.
 - `version` and `skateboardVersion` in `package.json` must always be equal — a stale `skateboardVersion` is a lie.
 - **Never hardcode dependency pins inside prose/docs.** Embedded "upgrade to X" prompts with literal pins rot every release. Reference the current pins from `package.json` / the reference repo instead, or point at the version-agnostic updater (`scripts/update-skateboard.js`).
 - Quick audit before committing a bump: `grep -rn "<old-version>" README.md docs/ AGENTS.md` must return nothing.
@@ -643,7 +643,7 @@ This repo ships **`skills/skateboard/SKILL.md`** — the Cursor/Claude skill for
 2. Prefer shadcn primitives from `@stevederico/skateboard-ui/shadcn/ui/*` over raw HTML.
 3. Named-import icons from `lucide-react` only (see Icons below).
 4. Treat `skateboardVersion` as a label — verify the tree (especially `backend/`) matches the template before claiming an upgrade is done.
-5. For upgrades, follow **Migrating 4.x → 5.0** below (and `docs/UPGRADE.md`).
+5. For upgrades, follow **Migrating 4.x → 5.0** below.
 
 Canonical pins live in this repo’s `package.json` (`version` / `skateboardVersion` / `@stevederico/skateboard-ui`). Refresh the skill metadata when those move.
 
