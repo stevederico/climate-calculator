@@ -21,12 +21,7 @@ docker run --rm -p 8000:8000 --env-file backend/.env climate-calculator
 
 ## Railway
 
-Project `bixby`, environment `production`, service `BXClimate`, domain [climate.bixbyapps.com](https://climate.bixbyapps.com).
-
-```bash
-railway link -p bixby -e production -s BXClimate
-railway up
-```
+`railway.json` selects the Dockerfile builder. The live site is [climate.bixbyapps.com](https://climate.bixbyapps.com).
 
 ## Environment
 

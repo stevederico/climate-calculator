@@ -18,4 +18,4 @@ node scripts/update-skateboard.js --yes
 
 Custom UI stays in `src/components/` and `src/main.tsx`. Custom API behavior stays in `backend/src/routes.rs`. Schema stays in `backend/src/db.rs`.
 
-`version` in `package.json` is this app (0.15.0). `skateboardVersion` is the template pin (5.6.0). They are not the same number.
+`version` in `package.json` is this app (0.16.0). `skateboardVersion` is the template pin (5.6.0). They are not the same number.

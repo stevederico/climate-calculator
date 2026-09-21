@@ -1,3 +1,9 @@
+0.16.0
+
+  Rewrite public README
+  Match stack to manifests
+  Drop Railway link command
+
 0.15.0
 
   Rename repo climate-calculator
