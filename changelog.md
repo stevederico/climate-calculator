@@ -1,3 +1,11 @@
+0.17.0
+
+  Fix API auth docs
+  Fix deploy env docs
+  Drop libsql migration notes
+  Retarget security policy
+  Drop dead doc pointers
+
 0.16.0
 
   Rewrite public README

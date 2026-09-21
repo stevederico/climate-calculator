@@ -1,6 +1,6 @@
 # API
 
-All routes are under `/api`. Dispatch is the `match` at the top of `backend/src/routes.rs`. There is no `GET /api/isSubscriber`. Subscriber state is a field on `GET /api/me` and on `POST /api/usage`.
+All routes are under `/api`. Dispatch is the `match` at the top of `backend/src/routes.rs`. There is no `GET /api/isSubscriber`. Subscriber state is a field on `POST /api/usage` only, not on `GET /api/me`.
 
 ## Auth
 
@@ -10,8 +10,8 @@ JWT in an HttpOnly cookie. State-changing requests send `X-CSRF-Token`.
 |--------|------|------|------|
 | POST | `/api/signup` | no | Create `Users` + `Auths`, set cookies |
 | POST | `/api/signin` | no | Verify password, set cookies. Lockout returns 429 |
-| POST | `/api/signout` | cookie | Clear cookies |
-| GET | `/api/me` | cookie | Profile, subscription, `isSubscriber` |
+| POST | `/api/signout` | cookie + CSRF | Clear cookies |
+| GET | `/api/me` | cookie | Profile, subscription, usage. No `isSubscriber` field |
 | PUT | `/api/me` | cookie + CSRF | Update name |
 | POST | `/api/usage` | cookie + CSRF | Body `operation`: `check` or `track` |
 | POST | `/api/checkout` | cookie + CSRF | Body: `email`, `lookup_key`. Only keys listed in `src/constants.json` are accepted (`climate_monthly`) |

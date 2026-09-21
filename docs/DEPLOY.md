@@ -1,6 +1,6 @@
 # Deployment
 
-Production is a Docker image on Railway. `railway.json` sets the builder to `Dockerfile`. Do not deploy this app to Vercel, Render, or Netlify. Those guides were leftover from the old Hono template.
+Production is a Docker image on Railway. `railway.json` sets the builder to `Dockerfile`. Do not deploy this app to Vercel, Render, or Netlify.
 
 ## Image
 
@@ -33,10 +33,10 @@ Set these on the service. Names match `backend/src/state.rs` and `backend/src/co
 | `JWT_SECRET` | yes, 32+ characters | HS256 signing key |
 | `STRIPE_KEY` | yes for checkout | Stripe secret key |
 | `STRIPE_ENDPOINT_SECRET` | yes for webhooks | `POST /api/payment` signature |
-| `FRONTEND_URL` | yes | Stripe success and cancel redirects |
+| `FRONTEND_URL` | no | Stripe success and cancel redirects. Falls back to an allowed `Origin` |
 | `CORS_ORIGINS` | when the browser origin is not the same host | Comma-separated allow list |
 | `PORT` | no | Listen port. Default 8000 |
-| `FREE_USAGE_LIMIT` | no | Free-tier monthly cap. Default 20 |
+| `FREE_USAGE_LIMIT` | no | Free-tier cap per 30-day window. Default 20 |
 | `SKATEBOARD_BACKEND_DIR` | set by the image | Directory that holds `config.json`. Image sets `/app/backend` |
 
 Stripe product lookup key in `src/constants.json` is `climate_monthly`.

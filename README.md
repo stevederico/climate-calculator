@@ -2,7 +2,7 @@
 
 EV vs gas and solar vs grid calculators. The UI name is Pine.
 
-**Version:** 0.16.0 | **Domain:** [climate.bixbyapps.com](https://climate.bixbyapps.com)
+**Version:** 0.17.0 | **Domain:** [climate.bixbyapps.com](https://climate.bixbyapps.com)
 
 ## Tech stack
 
