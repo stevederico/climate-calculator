@@ -1,6 +1,6 @@
 # Architecture
 
-BXClimate is a skateboard 5.6 app. The shell (auth, layout, legal pages, Stripe screens) comes from `@stevederico/skateboard-ui`. This repo owns the two calculators and the config.
+climate-calculator is a skateboard 5.6 app. The shell (auth, layout, legal pages, Stripe screens) comes from `@stevederico/skateboard-ui`. This repo owns the two calculators and the config.
 
 ## Processes
 

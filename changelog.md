@@ -1,3 +1,9 @@
+0.15.0
+
+  Rename repo climate-calculator
+  Keep Railway service name
+  Keep SQLite filename
+
 0.14.0
 
   Remove vite timestamp leak
