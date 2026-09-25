@@ -1,3 +1,7 @@
+0.18.0
+
+  Drop dottie-analytics
+
 0.17.0
 
   Fix API auth docs
