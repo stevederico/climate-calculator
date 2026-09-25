@@ -1,105 +1,105 @@
 {
-    "version": "0.17.0",
-    "design": {
-        "baseColor": "neutral",
-        "radius": "medium",
-        "font": "geist",
-        "iconLibrary": "lucide"
+  "version": "0.18.0",
+  "design": {
+    "baseColor": "neutral",
+    "radius": "medium",
+    "font": "geist",
+    "iconLibrary": "lucide"
+  },
+  "appName": "Pine",
+  "appIcon": "tree-pine",
+  "tagline": "Green Energy Tracker",
+  "cta": "Get Started",
+  "ctaHeading": "Ready to Get Started?",
+  "noLogin": false,
+  "authOverlay": true,
+  "sidebarCollapsed": false,
+  "features": {
+    "title": "Everything You Need",
+    "items": [
+      {
+        "icon": "ev-charger",
+        "title": "EV Calculator",
+        "description": "Compare electric vs gas vehicle costs"
+      },
+      {
+        "icon": "solar-panel",
+        "title": "Solar Calculator",
+        "description": "Compare grid vs solar energy costs"
+      },
+      {
+        "icon": "leaf",
+        "title": "Go Green",
+        "description": "Make informed decisions for a sustainable future"
+      }
+    ]
+  },
+  "backendURL": "/api",
+  "devBackendURL": "http://localhost:8000/api",
+  "pages": [
+    {
+      "title": "EV",
+      "url": "ev",
+      "icon": "car"
     },
-    "appName": "Pine",
-    "appIcon": "tree-pine",
-    "tagline": "Green Energy Tracker",
-    "cta": "Get Started",
-    "ctaHeading": "Ready to Get Started?",
-    "noLogin": false,
-    "authOverlay": true,
-    "sidebarCollapsed": false,
-    "features": {
-        "title": "Everything You Need",
-        "items": [
-            {
-                "icon": "ev-charger",
-                "title": "EV Calculator",
-                "description": "Compare electric vs gas vehicle costs"
-            },
-            {
-                "icon": "solar-panel",
-                "title": "Solar Calculator",
-                "description": "Compare grid vs solar energy costs"
-            },
-            {
-                "icon": "leaf",
-                "title": "Go Green",
-                "description": "Make informed decisions for a sustainable future"
-            }
-        ]
+    {
+      "title": "Solar",
+      "url": "solar",
+      "icon": "sun"
+    }
+  ],
+  "stripeProducts": [
+    {
+      "price": "$5.00",
+      "title": "Monthly Plan",
+      "interval": "monthly",
+      "lookup_key": "climate_monthly",
+      "features": [
+        "EV Cost Calculator",
+        "Solar Savings Tracker",
+        "Unlimited Comparisons",
+        "Priority Support",
+        "Cancel Anytime"
+      ]
+    }
+  ],
+  "pricing": {
+    "title": "Simple, Transparent Pricing",
+    "extras": [
+      "Priority Customer Support",
+      "Cancel Anytime"
+    ]
+  },
+  "navLinks": [
+    {
+      "label": "Features",
+      "href": "#features"
     },
-    "backendURL": "/api",
-    "devBackendURL": "http://localhost:8000/api",
-    "pages": [
-        {
-            "title": "EV",
-            "url": "ev",
-            "icon": "car"
-        },
-        {
-            "title": "Solar",
-            "url": "solar",
-            "icon": "sun"
-        }
-    ],
-    "stripeProducts": [
-        {
-            "price": "$5.00",
-            "title": "Monthly Plan",
-            "interval": "monthly",
-            "lookup_key": "climate_monthly",
-            "features": [
-                "EV Cost Calculator",
-                "Solar Savings Tracker",
-                "Unlimited Comparisons",
-                "Priority Support",
-                "Cancel Anytime"
-            ]
-        }
-    ],
-    "pricing": {
-        "title": "Simple, Transparent Pricing",
-        "extras": [
-            "Priority Customer Support",
-            "Cancel Anytime"
-        ]
+    {
+      "label": "Pricing",
+      "href": "#pricing"
+    }
+  ],
+  "footerLinks": [
+    {
+      "label": "Privacy",
+      "href": "/privacy"
     },
-    "navLinks": [
-        {
-            "label": "Features",
-            "href": "#features"
-        },
-        {
-            "label": "Pricing",
-            "href": "#pricing"
-        }
-    ],
-    "footerLinks": [
-        {
-            "label": "Privacy",
-            "href": "/privacy"
-        },
-        {
-            "label": "Terms",
-            "href": "/terms"
-        },
-        {
-            "label": "EULA",
-            "href": "/eula"
-        }
-    ],
-    "copyrightText": "All rights reserved.",
-    "companyName": "Pine",
-    "companyWebsite": "climate.bixbyapps.com",
-    "companyEmail": "support@pine.app",
-    "termsOfService": "",
-    "subscriptionDetails": "",
-    "privacyPolicy": "",
-    "EULA": ""
+    {
+      "label": "Terms",
+      "href": "/terms"
+    },
+    {
+      "label": "EULA",
+      "href": "/eula"
+    }
+  ],
+  "copyrightText": "All rights reserved.",
+  "companyName": "Pine",
+  "companyWebsite": "climate.bixbyapps.com",
+  "companyEmail": "support@pine.app",
+  "termsOfService": "",
+  "subscriptionDetails": "",
+  "privacyPolicy": "",
+  "EULA": ""
 }
