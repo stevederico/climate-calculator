@@ -23,7 +23,6 @@ import Layout from '@stevederico/skateboard-ui/Layout';
 import constants from './constants.json';
 import EVCalcView from './components/EVCalcView';
 import SolarCalcView from './components/SolarCalcView';
-import AnalyticsProvider from './components/AnalyticsProvider';
 import CommandMenu from './components/CommandMenu';
 
 /**
@@ -73,6 +72,5 @@ createSkateboardApp({
   constants,
   appRoutes,
   defaultRoute: 'ev',
-  wrapper: AnalyticsProvider,
   overrides: { layout: AppLayout }
 });

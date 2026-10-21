@@ -18,7 +18,6 @@ import {
   Volume2,
   type LucideIcon,
 } from 'lucide-react';
-import { trackEvent } from '../utils/analytics';
 import { formatNumber, parseNumberInput } from '../utils/formatting';
 import { calculatePayoffMonths } from '../utils/calculations';
 
@@ -218,7 +217,6 @@ export default function EVCalcView() {
       setIceInsurance(selected.insurance);
       setTradeInValue(selected.tradeIn);
       setIceRepairs(selected.repairs ?? 0);
-      trackEvent('ice-vehicle-selected', { vehicle: selectedIceCarTitle });
     }
   }, [selectedIceCarTitle]);
 
@@ -233,11 +231,10 @@ export default function EVCalcView() {
           {/* ICE Section */}
           <div className="flex-1 flex flex-col">
             <h3 className="text-3xl my-4 text-center"> ⛽️ Gas</h3>
-            <div id="iceParent" data-section-id="ice-calculator" className="p-0 rounded-lg shadow-md mb-4 md:mb-0 flex-1 flex flex-col">
+            <div id="iceParent" className="p-0 rounded-lg shadow-md mb-4 md:mb-0 flex-1 flex flex-col">
               <div className="my- mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 font-medium text-sm text-gray-400">Select Vehicle:</label>
                 <select
-                  data-umami-event="ice-vehicle-select"
                   value={selectedIceCarTitle}
                   onChange={e => setSelectedIceCarTitle(e.target.value)}
                   className="w-full p-0 pb-2 text-xl rounded"
@@ -364,12 +361,8 @@ export default function EVCalcView() {
               {/* ICE Vehicle Totals */}
               <div className="flex items-center justify-center mb-2 mt-4">
                 <div id="iceTotal"
-                  data-umami-event="ice-total-details"
                   className={`font-semibold text-3xl cursor-pointer bg-accent px-4 py-2 rounded w-full text-center min-w-[220px]`}
-                  onClick={() => {
-                    setShowIceDetails(v => !v);
-                    trackEvent('ice-details-toggled', { show: !showIceDetails });
-                  }}
+                  onClick={() => setShowIceDetails(v => !v)}
                 >
                   <span className="font-mono">${totalIceCarCost.toFixed(2)}</span>
                 </div>
@@ -390,11 +383,10 @@ export default function EVCalcView() {
           <div className="flex-1 flex flex-col">
 
             <h3 className="text-3xl my-4 text-center"> ⚡️ Electric</h3>
-            <div id="evParent" data-section-id="ev-calculator" className="p-0 rounded-lg shadow-md mb-0 flex-1 flex flex-col">
+            <div id="evParent" className="p-0 rounded-lg shadow-md mb-0 flex-1 flex flex-col">
               <div className="my- mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 font-medium text-sm text-gray-400">Select EV:</label>
                 <select
-                  data-umami-event="ev-vehicle-select"
                   value={selectedCarTitle}
                   onChange={(e) => {
                     const selectedCar = cars.find(car => car.title === e.target.value);
@@ -404,7 +396,6 @@ export default function EVCalcView() {
                       setEVInsurance(selectedCar.insurance);
                       setEVRegistration(selectedCar.registration);
                       setEVDown(selectedCar.down);
-                      trackEvent('ev-vehicle-selected', { vehicle: selectedCar.title });
                     }
                   }}
                   className="w-full p-0 pb-2 text-xl rounded"
@@ -509,12 +500,8 @@ export default function EVCalcView() {
               {/* EV Vehicle Totals */}
               <div className="flex items-center justify-center mb-2 mt-4">
                 <div id="evTotal"
-                  data-umami-event="ev-total-details"
                   className={`font-semibold text-3xl cursor-pointer bg-accent px-4 py-2 rounded w-full text-center min-w-[220px]${evIsLower ? ' text-green-500' : ''}`}
-                  onClick={() => {
-                    setShowEVDetails(v => !v);
-                    trackEvent('ev-details-toggled', { show: !showEVDetails });
-                  }}
+                  onClick={() => setShowEVDetails(v => !v)}
                 >
                   <span className="font-mono">${totalEVCost.toFixed(2)}</span>
                 </div>
@@ -535,18 +522,8 @@ export default function EVCalcView() {
         </div>
 
         <div
-          data-umami-event="referral-cta"
           className="mt-12 mb-6 px-3 py-4 bg-green-700 text-white text-center text-3xl rounded-xl cursor-pointer font-semibold hover:bg-green-800 transition-colors"
-          onClick={() => {
-            trackEvent('referral-cta-clicked', {
-              savings: totalIceCarCost - totalEVCost,
-              evCost: totalEVCost,
-              iceCost: totalIceCarCost,
-              evVehicle: selectedCarTitle,
-              iceVehicle: selectedIceCarTitle
-            });
-            window.open('https://ts.la/stephen93119', '_blank');
-          }}
+          onClick={() => window.open('https://ts.la/stephen93119', '_blank')}
         >
           {totalEVCost < totalIceCarCost
             ? `Save $${(totalIceCarCost - totalEVCost).toFixed(2)} /month`
@@ -573,7 +550,7 @@ export default function EVCalcView() {
 
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4 text-center">FAQ</h2>
-          <div data-section-id="faq" className="bg-background border border-accent rounded-lg p-6 mb-8 max-w-2xl mx-auto">
+          <div className="bg-background border border-accent rounded-lg p-6 mb-8 max-w-2xl mx-auto">
             <div className="mb-2 font-semibold text-lg">What about range?</div>
             <div className="text-base mb-4">
               Most ICE cars travel about 500 miles on a full tank. Model Y range is 327 miles. But ask yourself: have you ever driven your car with less than 2/3rds of a tank? Most daily driving is well within EV range, and you start every day with a full battery if you charge at home.
@@ -605,7 +582,7 @@ export default function EVCalcView() {
           </div>
         </div>
 
-        <div id="detailsArea" data-section-id="ev-benefits" className="mt-8">
+        <div id="detailsArea" className="mt-8">
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {EV_BENEFITS.map((b, i) => {
               const Icon = b.icon;
@@ -625,7 +602,7 @@ export default function EVCalcView() {
 
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4 text-center">Self-Driving</h2>
-          <div data-section-id="self-driving" className="bg-background border border-accent rounded-lg p-6 max-w-2xl mx-auto">
+          <div className="bg-background border border-accent rounded-lg p-6 max-w-2xl mx-auto">
             <div className="flex items-center gap-4 mb-4">
               <Car aria-hidden="true" className="w-8 h-8" />
               <span className="text-lg">AutoPilot - like cruise control but better</span>
