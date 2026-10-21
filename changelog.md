@@ -1,3 +1,7 @@
+0.20.0
+
+  Remove Stripe billing
+
 0.19.0
 
   Ship plan list

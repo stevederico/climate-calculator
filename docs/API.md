@@ -14,9 +14,6 @@ JWT in an HttpOnly cookie. State-changing requests send `X-CSRF-Token`.
 | GET | `/api/me` | cookie | Profile, subscription, usage. No `isSubscriber` field |
 | PUT | `/api/me` | cookie + CSRF | Update name |
 | POST | `/api/usage` | cookie + CSRF | Body `operation`: `check` or `track` |
-| POST | `/api/checkout` | cookie + CSRF | Body: `email`, `lookup_key`. Only keys listed in `src/constants.json` are accepted (`climate_monthly`) |
-| POST | `/api/portal` | cookie + CSRF | Stripe customer portal |
-| POST | `/api/payment` | Stripe signature | Webhook. Not a browser call |
 | GET | `/api/health` | no | Process up |
 
 Unknown `/api/*` paths return 404. Other paths fall through to the static frontend.
@@ -39,4 +36,4 @@ Duplicate email returns 400 and does not say that the email exists.
 
 ## Production secrets
 
-`JWT_SECRET`, `STRIPE_KEY`, and `STRIPE_ENDPOINT_SECRET` come from the environment. See [DEPLOY.md](DEPLOY.md). Do not commit them.
+`JWT_SECRET` comes from the environment. See [DEPLOY.md](DEPLOY.md). Do not commit them.
