@@ -13,12 +13,11 @@ climate-calculator is a skateboard 5.6 app. The shell (auth, layout, legal pages
 
 ## This app
 
-`src/main.tsx` registers two routes and wraps the shell:
+`src/main.tsx` registers two routes and overrides the layout:
 
 - `EVCalcView` at `ev`
 - `SolarCalcView` at `solar`
 - `CommandMenu` inside the layout override
-- `AnalyticsProvider` as the app wrapper
 
 Calculators are client-side. They do not call a climate API.
 

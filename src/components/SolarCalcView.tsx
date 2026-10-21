@@ -1,6 +1,5 @@
 import type { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
-import { trackEvent } from '../utils/analytics';
 import { formatNumber, parseNumberInput } from '../utils/formatting';
 
 /**
@@ -53,7 +52,7 @@ export default function SolarCalcView() {
           {/* Grid Section */}
           <div className="flex-1 flex flex-col">
             <h3 className="text-3xl my-4 text-center">⚡️ Grid</h3>
-            <div data-section-id="grid-calculator" className="p-0 rounded-lg shadow-md mb-4 flex-1 flex flex-col">
+            <div className="p-0 rounded-lg shadow-md mb-4 flex-1 flex flex-col">
               <div className="mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 text-sm text-gray-400">Monthly Bill</label>
                 <div className="flex items-beginning">
@@ -78,7 +77,7 @@ export default function SolarCalcView() {
           {/* Solar Section */}
           <div className="flex-1 flex flex-col">
             <h3 className="text-3xl my-4 text-center">☀️ Solar</h3>
-            <div data-section-id="solar-calculator" className="p-0 rounded-lg shadow-md mb-4 flex-1 flex flex-col">
+            <div className="p-0 rounded-lg shadow-md mb-4 flex-1 flex flex-col">
               {/* Remove System Cost input from main form */}
               <div className="mb-3 border px-3 pt-2 rounded">
                 <label className="block mb-1 text-sm text-gray-400">Monthly Bill</label>
@@ -143,17 +142,8 @@ export default function SolarCalcView() {
               <div className="flex-1" />
               <div className="flex items-center justify-center mb-2 mt-4">
                 <div
-                  data-umami-event="solar-total-details"
                   className={`font-semibold text-3xl bg-accent px-4 py-2 rounded w-full text-center min-w-[180px] cursor-pointer ${monthlySavings > 0 ? 'text-green-500' : 'text-red-500'}`}
-                  onClick={() => {
-                    setShowSolarDetails(v => !v);
-                    trackEvent('solar-details-toggled', {
-                      show: !showSolarDetails,
-                      savings: monthlySavings,
-                      solarCost: solarTotal,
-                      gridCost: gridTotal
-                    });
-                  }}
+                  onClick={() => setShowSolarDetails(v => !v)}
                 >
                   <span className="font-mono">${solarTotal.toFixed(2)}</span>
                 </div>

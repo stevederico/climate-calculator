@@ -1,3 +1,7 @@
+0.21.0
+
+  Remove Umami and dottie tracking code
+
 0.20.0
 
   Remove Stripe billing
