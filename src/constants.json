@@ -1,5 +1,5 @@
 {
-  "version": "0.21.0",
+  "version": "0.22.0",
   "design": {
     "baseColor": "neutral",
     "radius": "medium",
@@ -11,8 +11,8 @@
   "tagline": "Green Energy Tracker",
   "cta": "Get Started",
   "ctaHeading": "Ready to Get Started?",
-  "noLogin": false,
-  "authOverlay": true,
+  "noLogin": true,
+  "authOverlay": false,
   "sidebarCollapsed": false,
   "features": {
     "title": "Everything You Need",

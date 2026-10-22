@@ -1,3 +1,8 @@
+0.22.0
+
+  Turn off login
+  Run fully static
+
 0.21.0
 
   Remove Umami and dottie tracking code
