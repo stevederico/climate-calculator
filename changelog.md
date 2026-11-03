@@ -1,3 +1,7 @@
+0.22.1
+
+  Pin base images
+
 0.22.0
 
   Turn off login
